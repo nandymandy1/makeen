@@ -6,8 +6,8 @@ const WidgetContent = ({ title, onDrag = () => {}, ...props }) => {
   return (
     <div
       draggable="true"
-      onDragEnd={(e) => onDrag({ e, props, type: "END" })}
-      onDragStart={(e) => onDrag({ e, props, type: "START" })}
+      onDragEnd={(e) => onDrag({ e, props, eventType: "END" })}
+      onDragStart={(e) => onDrag({ e, props, eventType: "START" })}
       {...props}
     >
       <div className="widget-container">
