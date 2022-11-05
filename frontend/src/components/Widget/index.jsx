@@ -1,9 +1,9 @@
 import { BiMove } from "react-icons/bi";
 import styled from "styled-components";
 
-const WidgetContent = ({ title, onDragEnd = () => {}, ...props }) => {
+const WidgetContent = ({ title, ...props }) => {
   return (
-    <div draggable="true" onDragEnd={(e) => onDragEnd({ e, props })} {...props}>
+    <div draggable="true" {...props}>
       <div className="widget-container">
         <BiMove color="#fff" size={20} />
         <div className="widget-label">{title}</div>
