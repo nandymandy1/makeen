@@ -1,7 +1,11 @@
+import MkButton from "@components/Button";
+
 const App = () => {
   return (
     <div>
-      <h1>Hello World</h1>
+      <MkButton variant="primary">Click Me</MkButton>
+      <MkButton variant="secondary">Click Me</MkButton>
+      <MkButton variant="light">Click Me</MkButton>
     </div>
   );
 };
