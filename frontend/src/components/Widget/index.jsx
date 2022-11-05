@@ -1,11 +1,17 @@
 import { BiMove } from "react-icons/bi";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
-const WidgetContent = ({ title, ...props }) => {
+const WidgetContent = ({ title, onDrag = () => {}, ...props }) => {
   return (
-    <div draggable="true" {...props}>
+    <div
+      draggable="true"
+      onDragEnd={(e) => onDrag({ e, props, type: "END" })}
+      onDragStart={(e) => onDrag({ e, props, type: "START" })}
+      {...props}
+    >
       <div className="widget-container">
-        <BiMove color="#fff" size={20} />
+        <BiMove size={20} />
         <div className="widget-label">{title}</div>
       </div>
     </div>
@@ -33,6 +39,12 @@ const Widget = styled(WidgetContent)`
   color: #fff;
   border-radius: 25px;
   border: 1px dashed #fff;
+  transition: 0.3s ease-in;
+  &:hover {
+    color: #047aff;
+    background-color: #fff;
+    border-color: #047aff;
+  }
   .widget-container {
     width: 80%;
     height: 100%;
@@ -50,5 +62,10 @@ const Widget = styled(WidgetContent)`
     }
   }
 `;
+
+Widget.propTypes = {
+  title: PropTypes.string.isRequired,
+  onDrag: PropTypes.func.isRequired,
+};
 
 export default Widget;
