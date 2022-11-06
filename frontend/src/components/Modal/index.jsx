@@ -7,9 +7,15 @@ const Modal = styled.div`
   z-index: auto;
   height: 100vh;
   position: fixed;
-  padding: 10px 30px;
+  padding: 10px 10px;
   background: #fff;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
   transition: visibility 0.2s, opacity 0.2s linear;
+
   ${({ show }) => ({
     opacity: show ? 1 : 0,
     visibility: show ? "visible" : "hidden",
@@ -17,10 +23,21 @@ const Modal = styled.div`
 `;
 
 export const ModalHeader = styled.div`
-  width: 97%;
+  width: 96%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const ModalContent = styled.div`
+  width: 96%;
+  flex-grow: 1;
+  overflow-y: scroll;
+`;
+
+export const ModalFooter = styled.div`
+  width: 96%;
+  height: 10%;
 `;
 
 export default Modal;

@@ -1,8 +1,9 @@
 import AppContainer, { AppContent, AppSidebar } from "@components/AppLayout";
 import MkButton from "@components/Button";
 import IconButton from "@components/Button/IconButton";
-import { FormsLayoutBuilder, FormsContainer } from "@components/Form";
-import Modal, { ModalHeader } from "@components/Modal";
+import { FormsContainer, FormsLayoutBuilder } from "@components/Form";
+import { Col, Grid, Row } from "@components/Grid";
+import Modal, { ModalContent, ModalHeader } from "@components/Modal";
 import { Heading } from "@components/Typography";
 import Widget, { WidgetContainer } from "@components/Widget";
 import useToggle from "@hooks/useToggle";
@@ -19,28 +20,51 @@ const Widgets = [
   { title: "Divider", type: "divider" },
 ];
 
+const gridLayoutGenerator = ({ rowsNo = 1, colsNo = 1 }) => [
+  {
+    id: v4(),
+    rows: Array(rowsNo).fill({
+      id: v4(),
+      cols: Array(colsNo).fill({ id: v4(), children: [] }),
+    }),
+  },
+];
+
 const App = () => {
   const elementRef = useRef(null);
   const [isOpen, toggleModal] = useToggle();
 
   // Stores the form list
   const [forms, setForms] = useState([]);
+  const [gridLayout, setGridLayout] = useState([]);
 
   // Stores the form content
   const [formContent, setFormContent] = useState([]);
 
-  const handleDrag = ({ props: { type } }) => (elementRef.current = type);
+  const handleDrag = ({ props: { type } }) => {
+    elementRef.current = type;
+    if (type === "table") {
+      setGridLayout(gridLayoutGenerator({ colsNo: 2 }));
+    }
+  };
 
   const handleDrop = (e) => {
-    setFormContent([
-      ...formContent,
-      {
-        id: v4(),
-        elementType: elementRef.current,
-      },
-    ]);
-    elementRef.current = null;
+    if ((elementRef.current = "table" && e.onDragEl === "GRID")) {
+      setFormContent([
+        ...formContent,
+        {
+          id: v4(),
+          grid: gridLayout,
+          elementType: elementRef.current,
+        },
+      ]);
+
+      elementRef.current = null;
+      setGridLayout([]);
+    }
   };
+
+  console.log({ formContent, gridLayout });
 
   return (
     <AppContainer>
@@ -70,8 +94,38 @@ const App = () => {
           Drop & Create
         </Heading>
         <FormsLayoutBuilder
-          onDragLeave={(e) => handleDrop({ e, eventType: "LEAVE" })}
-        ></FormsLayoutBuilder>
+          onDragLeave={(e) => handleDrop({ e, onDragEl: "GRID" })}
+        >
+          {formContent.map(({ id, grid }) => (
+            <div key={id} style={{ paddingTop: 50, paddingBottom: 30 }}>
+              {grid.map(({ rows, id }) => (
+                <div>
+                  <Grid key={id}>
+                    {rows.map(({ id, cols }) => (
+                      <Row key={id}>
+                        {cols.map((col) => (
+                          <Col size={1} key={col.id}></Col>
+                        ))}
+                      </Row>
+                    ))}
+                  </Grid>
+                  <div
+                    style={{
+                      width: 100,
+                      height: 30,
+                      marginTop: -60,
+                      display: "flex",
+                      borderRadius: 10,
+                      marginLeft: "auto",
+                      background: "#F6F5F7",
+                      border: "1px solid #DCDBDD",
+                    }}
+                  ></div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </FormsLayoutBuilder>
         <div
           style={{
             width: "100%",
@@ -103,9 +157,35 @@ const App = () => {
             <MdOutlineClose color="#000" />
           </IconButton>
         </ModalHeader>
+        <ModalContent></ModalContent>
       </Modal>
     </AppContainer>
   );
 };
 
 export default App;
+
+/*
+{formContent.map(
+            (form) =>
+              {form.grid.map<Grid draggable="true" key={grid.id}>
+              ({
+                {grid.rows.map((row) => (
+                <Row key={row.id}>
+                  {row.cols.map((col) => (
+                    <Col
+                      key={col.id}
+                      onDragLeave={(e) =>
+                        handleDrop({ e, onDragEl: "COL", colId: col.id })
+                      }
+                      size={1}
+                    >
+                      {col.children}
+                    </Col>
+                  ))}
+                </Row>
+              ))} 
+            })
+            </Grid>}
+          )}
+*/

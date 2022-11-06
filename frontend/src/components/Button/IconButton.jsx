@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
-const IconButton = styled.div`
+const IconButton = styled.button`
   width: 30px;
   height: 30px;
+  border: none;
   display: flex;
   cursor: pointer;
   border-radius: 4px;
