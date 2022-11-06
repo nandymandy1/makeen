@@ -21,25 +21,22 @@ const ButtonContentWrapper = styled.div`
 `;
 
 const Button = ({
+  dashed,
+  rounded,
+  variant,
   children,
   pIcon: PIcon = null,
   sIcon: SIcon = null,
   ...props
-}) => {
-  delete props["dashed"];
-  delete props["rounded"];
-  delete props["variant"];
-
-  return (
-    <button {...props}>
-      <ButtonContentWrapper>
-        {PIcon && PIcon}
-        <div style={{ flexGrow: 1 }}>{children}</div>
-        {SIcon && SIcon}
-      </ButtonContentWrapper>
-    </button>
-  );
-};
+}) => (
+  <button {...props}>
+    <ButtonContentWrapper>
+      {PIcon && PIcon}
+      <div style={{ flexGrow: 1 }}>{children}</div>
+      {SIcon && SIcon}
+    </ButtonContentWrapper>
+  </button>
+);
 
 const ButtonVariants = {
   primary: () => ({
@@ -98,26 +95,26 @@ const ButtonVariants = {
 
 const MkButton = styled(Button)`
   margin: 15px;
-  margin-bottom: 0px;
   border: none;
   padding: 10px;
   cursor: pointer;
   min-width: 170px;
+  margin-bottom: 0px;
   transition: 0.2s ease-in;
 
   ${({ block = false }) => (block ? { "min-width": "97%" } : "")}
-  ${({ variant }) => ButtonVariants[variant] || ButtonVariants["primary"]}
   border-radius: ${({ rounded = false }) => (rounded ? "30px" : "3px")};
+  ${({ variant }) => ButtonVariants[variant] || ButtonVariants["primary"]}
   ${({ dashed = false }) => ({ "border-style": dashed ? "dashed" : "solid" })}
 `;
 
 MkButton.propTypes = {
-  block: PropTypes.bool,
-  dashed: PropTypes.bool,
   sIcon: PropTypes.node,
   pIcon: PropTypes.node,
-  variant: PropTypes.string,
+  block: PropTypes.bool,
+  dashed: PropTypes.bool,
   onClick: PropTypes.func,
+  variant: PropTypes.string,
 };
 
 export default MkButton;

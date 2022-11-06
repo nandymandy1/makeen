@@ -11,6 +11,13 @@ const IconButton = styled.button`
   justify-content: center;
   transition: 200ms ease-in;
   background-color: rgba(0, 0, 0, 0.05);
+  ${({ rounded }) =>
+    rounded
+      ? {
+          "border-radius": "50%",
+        }
+      : {}}
+
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
