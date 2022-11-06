@@ -22,11 +22,14 @@ const Widgets = [
 
 const gridLayoutGenerator = ({ rowsNo = 1, colsNo = 1 }) => [
   {
-    id: v4(),
-    rows: Array(rowsNo).fill({
+    rows: Array.from({ length: rowsNo }, (_) => ({
       id: v4(),
-      cols: Array(colsNo).fill({ id: v4(), children: [] }),
-    }),
+      cols: Array.from({ length: colsNo }, (_) => ({
+        id: v4(),
+        children: [],
+      })),
+    })),
+    id: v4(),
   },
 ];
 
@@ -39,46 +42,50 @@ const App = () => {
   const [gridLayout, setGridLayout] = useState([]);
 
   // Stores the form content
-  const [formContent, setFormContent] = useState([]);
+  const [formContents, setFormContents] = useState([]);
 
   const handleDrag = ({ props: { type } }) => {
     elementRef.current = type;
     if (type === "table") {
-      setGridLayout(gridLayoutGenerator({ colsNo: 2 }));
+      setGridLayout(gridLayoutGenerator({ colsNo: 3, rowsNo: 2 }));
     }
   };
 
   const handleDrop = (e) => {
-    if ((elementRef.current = "table" && e.onDragEl === "GRID")) {
-      setFormContent([
-        ...formContent,
+    let contents = [];
+
+    if (elementRef.current === "table" && e.onDragEl === "GRID") {
+      contents = [
+        ...formContents,
         {
           id: v4(),
           grid: gridLayout,
           elementType: elementRef.current,
         },
-      ]);
+      ];
 
-      elementRef.current = null;
       setGridLayout([]);
+      setFormContents(contents);
     }
+
+    elementRef.current = null;
   };
 
-  console.log({ formContent, gridLayout });
+  console.log({ formContents });
 
   return (
     <AppContainer>
       <AppSidebar>
         {forms.length > 0 && <FormsContainer></FormsContainer>}
         <WidgetContainer>
-          <Heading style={{ alignSelf: "start", marginLeft: "60px" }}>
+          <Heading style={{ alignSelf: "start", marginLeft: "45px" }}>
             Cell layout
           </Heading>
           <Widget onDrag={handleDrag} title="Table" type="table" />
         </WidgetContainer>
 
         <WidgetContainer>
-          <Heading style={{ alignSelf: "start", marginLeft: "60px" }}>
+          <Heading style={{ alignSelf: "start", marginLeft: "45px" }}>
             Form Components
           </Heading>
           {Widgets.map((widget) => (
@@ -96,31 +103,19 @@ const App = () => {
         <FormsLayoutBuilder
           onDragLeave={(e) => handleDrop({ e, onDragEl: "GRID" })}
         >
-          {formContent.map(({ id, grid }) => (
-            <div key={id} style={{ paddingTop: 50, paddingBottom: 30 }}>
-              {grid.map(({ rows, id }) => (
+          {formContents.map(({ id: contentId, grid }) => (
+            <div key={contentId} style={{ paddingTop: 50, paddingBottom: 30 }}>
+              {grid.map(({ rows, id: gridId }) => (
                 <div>
-                  <Grid key={id}>
-                    {rows.map(({ id, cols }) => (
-                      <Row key={id}>
+                  <Grid key={gridId}>
+                    {rows.map(({ id: rowId, cols }) => (
+                      <Row key={rowId}>
                         {cols.map((col) => (
                           <Col size={1} key={col.id}></Col>
                         ))}
                       </Row>
                     ))}
                   </Grid>
-                  <div
-                    style={{
-                      width: 100,
-                      height: 30,
-                      marginTop: -60,
-                      display: "flex",
-                      borderRadius: 10,
-                      marginLeft: "auto",
-                      background: "#F6F5F7",
-                      border: "1px solid #DCDBDD",
-                    }}
-                  ></div>
                 </div>
               ))}
             </div>

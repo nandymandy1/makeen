@@ -3,6 +3,4 @@ export const Heading = ({
   color = "#fff",
   children,
   style = {},
-}) => {
-  return <Element style={{ color, ...style }}>{children}</Element>;
-};
+}) => <Element style={{ color, ...style }}>{children}</Element>;
