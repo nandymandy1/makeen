@@ -14,11 +14,11 @@ export const AppSidebar = styled.div`
 
 export const AppContent = styled.div`
   padding: 15px 25px;
-  padding-bottom: 0px;
-  max-height: 100vh !important;
   overflow-y: scroll;
+  padding-bottom: 0px;
   background-color: #fff;
   width: calc(100vw - 400px);
+  max-height: 100vh !important;
 `;
 
 export default AppContainer;

@@ -6,10 +6,21 @@ const Modal = styled.div`
   width: 100vw;
   z-index: auto;
   height: 100vh;
-  padding: 30px;
   position: fixed;
+  padding: 10px 30px;
   background: #fff;
-  display: ${({ show }) => (show ? "block" : "none")};
+  transition: visibility 0.2s, opacity 0.2s linear;
+  ${({ show }) => ({
+    opacity: show ? 1 : 0,
+    visibility: show ? "visible" : "hidden",
+  })}
+`;
+
+export const ModalHeader = styled.div`
+  width: 97%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export default Modal;

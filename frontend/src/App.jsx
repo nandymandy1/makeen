@@ -1,39 +1,15 @@
 import AppContainer, { AppContent, AppSidebar } from "@components/AppLayout";
+import MkButton from "@components/Button";
+import IconButton from "@components/Button/IconButton";
+import { FormsLayoutBuilder, FormsContainer } from "@components/Form";
+import Modal, { ModalHeader } from "@components/Modal";
 import { Heading } from "@components/Typography";
 import Widget, { WidgetContainer } from "@components/Widget";
-import styled from "styled-components";
-import { useRef, useState } from "react";
-import { v4 } from "uuid";
-import MkButton from "@components/Button";
-import { BiDownload } from "react-icons/bi";
-import Modal from "@components/Modal";
 import useToggle from "@hooks/useToggle";
-
-const FormsContainer = styled.div`
-  width: 100%;
-  padding-bottom: 3rem;
-  background-color: #efefef;
-`;
-
-const FormLayoutBuilder = styled.div`
-  width: 100%;
-  max-height: 82%;
-  min-height: 82%;
-  overflow-y: scroll;
-  border-radius: 3px;
-  padding-bottom: 3rem;
-  border: 1px dashed rgba(0, 0, 0, 0.3);
-`;
-
-const FormLayoutPreview = styled.div`
-  width: 100%;
-  max-height: 82%;
-  min-height: 82%;
-  overflow-y: scroll;
-  border-radius: 3px;
-  padding-bottom: 3rem;
-  border: 1px dashed rgba(0, 0, 0, 0.3);
-`;
+import { useRef, useState } from "react";
+import { BiDownload } from "react-icons/bi";
+import { MdOutlineClose } from "react-icons/md";
+import { v4 } from "uuid";
 
 const Widgets = [
   { title: "Input", type: "input" },
@@ -43,17 +19,16 @@ const Widgets = [
   { title: "Divider", type: "divider" },
 ];
 
-const ModalHeader = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-
 const App = () => {
   const elementRef = useRef(null);
-  const [forms, setForms] = useState([]);
   const [isOpen, toggleModal] = useToggle();
+
+  // Stores the form list
+  const [forms, setForms] = useState([]);
+
+  // Stores the form content
   const [formContent, setFormContent] = useState([]);
+
   const handleDrag = ({ props: { type } }) => (elementRef.current = type);
 
   const handleDrop = (e) => {
@@ -61,7 +36,7 @@ const App = () => {
       ...formContent,
       {
         id: v4(),
-        type: elementRef.current,
+        elementType: elementRef.current,
       },
     ]);
     elementRef.current = null;
@@ -94,9 +69,9 @@ const App = () => {
         >
           Drop & Create
         </Heading>
-        <FormLayoutBuilder
+        <FormsLayoutBuilder
           onDragLeave={(e) => handleDrop({ e, eventType: "LEAVE" })}
-        ></FormLayoutBuilder>
+        ></FormsLayoutBuilder>
         <div
           style={{
             width: "100%",
@@ -106,15 +81,16 @@ const App = () => {
           }}
         >
           <MkButton
+            rounded
+            variant="primary"
             onClick={toggleModal}
             pIcon={<BiDownload size={16} />}
-            variant="primary"
-            rounded
           >
             Save
           </MkButton>
         </div>
       </AppContent>
+
       <Modal show={isOpen}>
         <ModalHeader>
           <Heading
@@ -123,6 +99,9 @@ const App = () => {
           >
             Preview
           </Heading>
+          <IconButton onClick={toggleModal}>
+            <MdOutlineClose color="#000" />
+          </IconButton>
         </ModalHeader>
       </Modal>
     </AppContainer>
