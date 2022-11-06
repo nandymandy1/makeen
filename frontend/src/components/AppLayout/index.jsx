@@ -14,6 +14,7 @@ export const AppSidebar = styled.div`
 
 export const AppContent = styled.div`
   padding: 15px 25px;
+  padding-bottom: 0px;
   max-height: 100vh !important;
   overflow-y: scroll;
   background-color: #fff;

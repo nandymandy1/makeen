@@ -4,6 +4,10 @@ import Widget, { WidgetContainer } from "@components/Widget";
 import styled from "styled-components";
 import { useRef, useState } from "react";
 import { v4 } from "uuid";
+import MkButton from "@components/Button";
+import { BiDownload } from "react-icons/bi";
+import Modal from "@components/Modal";
+import useToggle from "@hooks/useToggle";
 
 const FormsContainer = styled.div`
   width: 100%;
@@ -11,17 +15,44 @@ const FormsContainer = styled.div`
   background-color: #efefef;
 `;
 
-const FormLayout = styled.div`
+const FormLayoutBuilder = styled.div`
   width: 100%;
-  max-height: 85%;
-  min-height: 85%;
+  max-height: 82%;
+  min-height: 82%;
   overflow-y: scroll;
+  border-radius: 3px;
   padding-bottom: 3rem;
-  background-color: red;
+  border: 1px dashed rgba(0, 0, 0, 0.3);
+`;
+
+const FormLayoutPreview = styled.div`
+  width: 100%;
+  max-height: 82%;
+  min-height: 82%;
+  overflow-y: scroll;
+  border-radius: 3px;
+  padding-bottom: 3rem;
+  border: 1px dashed rgba(0, 0, 0, 0.3);
+`;
+
+const Widgets = [
+  { title: "Input", type: "input" },
+  { title: "Checkbox", type: "checkbox" },
+  { title: "File Uploader", type: "uploader" },
+  { title: "Text", type: "text" },
+  { title: "Divider", type: "divider" },
+];
+
+const ModalHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const App = () => {
   const elementRef = useRef(null);
+  const [forms, setForms] = useState([]);
+  const [isOpen, toggleModal] = useToggle();
   const [formContent, setFormContent] = useState([]);
   const handleDrag = ({ props: { type } }) => (elementRef.current = type);
 
@@ -39,7 +70,7 @@ const App = () => {
   return (
     <AppContainer>
       <AppSidebar>
-        <FormsContainer></FormsContainer>
+        {forms.length > 0 && <FormsContainer></FormsContainer>}
         <WidgetContainer>
           <Heading style={{ alignSelf: "start", marginLeft: "60px" }}>
             Cell layout
@@ -51,11 +82,9 @@ const App = () => {
           <Heading style={{ alignSelf: "start", marginLeft: "60px" }}>
             Form Components
           </Heading>
-          <Widget onDrag={handleDrag} title="Input" type="input" />
-          <Widget onDrag={handleDrag} title="Checkbox" type="checkbox" />
-          <Widget onDrag={handleDrag} title="File Uploader" type="uploader" />
-          <Widget onDrag={handleDrag} title="Text" type="text" />
-          <Widget onDrag={handleDrag} title="Divider" type="divider" />
+          {Widgets.map((widget) => (
+            <Widget key={widget.type} onDrag={handleDrag} {...widget} />
+          ))}
         </WidgetContainer>
       </AppSidebar>
       <AppContent>
@@ -65,10 +94,37 @@ const App = () => {
         >
           Drop & Create
         </Heading>
-        <FormLayout
+        <FormLayoutBuilder
           onDragLeave={(e) => handleDrop({ e, eventType: "LEAVE" })}
-        ></FormLayout>
+        ></FormLayoutBuilder>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <MkButton
+            onClick={toggleModal}
+            pIcon={<BiDownload size={16} />}
+            variant="primary"
+            rounded
+          >
+            Save
+          </MkButton>
+        </div>
       </AppContent>
+      <Modal show={isOpen}>
+        <ModalHeader>
+          <Heading
+            type="h1"
+            style={{ marginTop: -10, color: "#D8D8D8", fontSize: "2.5em" }}
+          >
+            Preview
+          </Heading>
+        </ModalHeader>
+      </Modal>
     </AppContainer>
   );
 };

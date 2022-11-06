@@ -98,6 +98,7 @@ const ButtonVariants = {
 
 const MkButton = styled(Button)`
   margin: 15px;
+  margin-bottom: 0px;
   border: none;
   padding: 10px;
   cursor: pointer;
