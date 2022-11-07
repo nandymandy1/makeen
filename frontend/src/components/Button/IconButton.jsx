@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 const IconButton = styled.button`
-  width: 30px;
-  height: 30px;
   border: none;
   display: flex;
   cursor: pointer;
@@ -10,10 +8,14 @@ const IconButton = styled.button`
   align-items: center;
   justify-content: center;
   transition: 200ms ease-in;
+  margin-top: 5px;
+  margin-bottom: 5px;
   background-color: rgba(0, 0, 0, 0.05);
-  ${({ rounded }) =>
+  ${({ rounded, width = 30, height = 30 }) =>
     rounded
       ? {
+          width: `${width}px`,
+          height: `${height}px`,
           "border-radius": "50%",
         }
       : {}}

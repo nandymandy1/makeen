@@ -1,13 +1,18 @@
 import AppContainer, { AppContent, AppSidebar } from "@components/AppLayout";
 import MkButton from "@components/Button";
 import IconButton from "@components/Button/IconButton";
-import { FormsContainer, FormsLayoutBuilder } from "@components/Form";
-import { Col, Grid, Row } from "@components/Grid";
+import {
+  FormsContainer,
+  FormsLayoutBuilder,
+  FormsLayoutBuilderFooter,
+} from "@components/Form";
+import { GridContainer } from "@components/Grid/Builder";
 import Modal, { ModalContent, ModalHeader } from "@components/Modal";
 import { Heading } from "@components/Typography";
 import Widget, { WidgetContainer } from "@components/Widget";
+import useArray from "@hooks/useArray";
 import useToggle from "@hooks/useToggle";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiDownload } from "react-icons/bi";
 import { MdOutlineClose } from "react-icons/md";
 import { v4 } from "uuid";
@@ -20,58 +25,80 @@ const Widgets = [
   { title: "Divider", type: "divider" },
 ];
 
-const gridLayoutGenerator = ({ rowsNo = 1, colsNo = 1 }) => [
-  {
-    rows: Array.from({ length: rowsNo }, (_) => ({
-      id: v4(),
-      cols: Array.from({ length: colsNo }, (_) => ({
-        id: v4(),
-        children: [],
-      })),
-    })),
-    id: v4(),
-  },
-];
-
 const App = () => {
   const elementRef = useRef(null);
   const [isOpen, toggleModal] = useToggle();
 
   // Stores the form list
   const [forms, setForms] = useState([]);
-  const [gridLayout, setGridLayout] = useState([]);
-
-  // Stores the form content
-  const [formContents, setFormContents] = useState([]);
+  const [
+    formContents,
+    pushFormContent,
+    clearFormContents,
+    filterFormContents,
+    removeFormContents,
+    updateFormContents,
+    setFormContents,
+  ] = useArray([]);
 
   const handleDrag = ({ props: { type } }) => {
     elementRef.current = type;
-    if (type === "table") {
-      setGridLayout(gridLayoutGenerator({ colsNo: 3, rowsNo: 2 }));
-    }
   };
 
   const handleDrop = (e) => {
-    let contents = [];
+    if (elementRef.current === "grid" && e.onDragEl === "GRID") {
+      pushFormContent({
+        id: v4(),
+        Element: GridContainer,
+        elementType: elementRef.current,
+        children: [{ id: v4(), children: [] }],
+      });
+      elementRef.current = null;
+    }
 
-    if (elementRef.current === "table" && e.onDragEl === "GRID") {
-      contents = [
-        ...formContents,
+    if (e.e.target.className.includes("cell")) {
+      const { target } = e.e;
+
+      // get the index of target cell's grid and then update it
+      const targetGridIndex = formContents.findIndex((content) =>
+        content.cells.some((cell) => cell.id === target.id)
+      );
+
+      const targetGridCell = formContents[targetGridIndex].children.find(
+        (cell) => cell.id === target.id
+      );
+
+      targetGridCell.children = [
         {
           id: v4(),
-          grid: gridLayout,
+          rules: [],
+          label: "",
           elementType: elementRef.current,
         },
       ];
 
-      setGridLayout([]);
-      setFormContents(contents);
-    }
+      const updatedTargetGrid = {
+        ...formContents[targetGridIndex].children,
+      };
 
-    elementRef.current = null;
+      console.log({ updatedTargetGrid });
+
+      elementRef.current = null;
+    }
   };
 
-  console.log({ formContents });
+  console.log({ formContents, el: elementRef.current });
+
+  useEffect(() => {
+    setFormContents([
+      {
+        id: v4(),
+        Element: GridContainer,
+        elementType: elementRef.current,
+        cells: [{ id: v4(), children: [] }],
+      },
+    ]);
+  }, []);
 
   return (
     <AppContainer>
@@ -81,6 +108,7 @@ const App = () => {
           <Heading style={{ alignSelf: "start", marginLeft: "45px" }}>
             Cell layout
           </Heading>
+          <Widget onDrag={handleDrag} title="Grid" type="grid" />
           <Widget onDrag={handleDrag} title="Table" type="table" />
         </WidgetContainer>
 
@@ -96,48 +124,40 @@ const App = () => {
       <AppContent>
         <Heading
           type="h3"
-          style={{ textAlign: "center", marginTop: -10, color: "#D8D8D8" }}
+          style={{
+            marginTop: -10,
+            marginBottom: 15,
+            color: "#D8D8D8",
+            textAlign: "center",
+          }}
         >
           Drop & Create
         </Heading>
         <FormsLayoutBuilder
           onDragLeave={(e) => handleDrop({ e, onDragEl: "GRID" })}
         >
-          {formContents.map(({ id: contentId, grid }) => (
-            <div key={contentId} style={{ paddingTop: 50, paddingBottom: 30 }}>
-              {grid.map(({ rows, id: gridId }) => (
-                <div>
-                  <Grid key={gridId}>
-                    {rows.map(({ id: rowId, cols }) => (
-                      <Row key={rowId}>
-                        {cols.map((col) => (
-                          <Col size={1} key={col.id}></Col>
-                        ))}
-                      </Row>
-                    ))}
-                  </Grid>
-                </div>
-              ))}
-            </div>
+          {formContents.map(({ Element, id, cells }) => (
+            <Element key={id} passedEl={elementRef} cells={cells} />
           ))}
         </FormsLayoutBuilder>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <FormsLayoutBuilderFooter>
+          <MkButton
+            rounded
+            variant="light"
+            onClick={clearFormContents}
+            pIcon={<BiDownload size={16} />}
+          >
+            Reset Form
+          </MkButton>
           <MkButton
             rounded
             variant="primary"
             onClick={toggleModal}
             pIcon={<BiDownload size={16} />}
           >
-            Save
+            Save Form
           </MkButton>
-        </div>
+        </FormsLayoutBuilderFooter>
       </AppContent>
 
       <Modal show={isOpen}>
@@ -159,28 +179,3 @@ const App = () => {
 };
 
 export default App;
-
-/*
-{formContent.map(
-            (form) =>
-              {form.grid.map<Grid draggable="true" key={grid.id}>
-              ({
-                {grid.rows.map((row) => (
-                <Row key={row.id}>
-                  {row.cols.map((col) => (
-                    <Col
-                      key={col.id}
-                      onDragLeave={(e) =>
-                        handleDrop({ e, onDragEl: "COL", colId: col.id })
-                      }
-                      size={1}
-                    >
-                      {col.children}
-                    </Col>
-                  ))}
-                </Row>
-              ))} 
-            })
-            </Grid>}
-          )}
-*/
