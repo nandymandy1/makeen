@@ -46,35 +46,21 @@ export const Input = ({ id, label = "", ...restProps }) => {
   );
 };
 
-export const GridContainer = ({ cells = [], passedEl = null }) => {
-  const [cols, setCols] = useState(cells);
-
-  const handleClick = (type = "+") => {
-    if (type === "+") setCols([...cols, { id: v4(), children: [] }]);
-    if (type === "-") {
-      if (cols.length === 1) return;
-      setCols(cols.filter((col) => cols[cols.length - 1].id !== col.id));
-    }
-  };
-
-  const handleDrop = (e) => console.log({ e, type: "COL", passedEl });
-
+export const GridContainer = ({
+  cells = [],
+  addOrRemoveGridCell = () => {},
+}) => {
   return (
     <GridBuilderContainer>
-      {cols.map((col) => (
-        <GridCell
-          id={col.id}
-          key={col.id}
-          className="cell"
-          onDragLeave={(e) => handleDrop({ e, id: col.id })}
-        ></GridCell>
+      {cells.map((col) => (
+        <GridCell id={col.id} key={col.id} className="cell"></GridCell>
       ))}
       <GridRowController>
         <IconButton
           rounded
           width={25}
           height={25}
-          onClick={() => handleClick("+")}
+          onClick={() => addOrRemoveGridCell("+")}
         >
           <BsPlusLg size={13} color="rgba(0,0,0,0.4)" />
         </IconButton>
@@ -82,7 +68,7 @@ export const GridContainer = ({ cells = [], passedEl = null }) => {
           rounded
           width={25}
           height={25}
-          onClick={() => handleClick("-")}
+          onClick={() => addOrRemoveGridCell("-")}
         >
           <BsDashLg size={13} color="rgba(0,0,0,0.4)" />
         </IconButton>

@@ -47,58 +47,97 @@ const App = () => {
 
   const handleDrop = (e) => {
     if (elementRef.current === "grid" && e.onDragEl === "GRID") {
-      pushFormContent({
-        id: v4(),
-        Element: GridContainer,
-        elementType: elementRef.current,
-        children: [{ id: v4(), children: [] }],
-      });
+      setFormContents([
+        ...formContents,
+        {
+          id: v4(),
+          elementType: elementRef.current,
+          children: [{ id: v4(), children: [], type: "cell" }],
+        },
+      ]);
+
       elementRef.current = null;
+      return;
     }
 
     if (e.e.target.className.includes("cell")) {
       const { target } = e.e;
 
-      // get the index of target cell's grid and then update it
-      const targetGridIndex = formContents.findIndex((content) =>
-        content.cells.some((cell) => cell.id === target.id)
+      let targetGrid = formContents.find((grid) =>
+        grid.children.some((cell) => cell.id === target.id)
       );
 
-      const targetGridCell = formContents[targetGridIndex].children.find(
+      let targetGridCell = targetGrid.children.find(
         (cell) => cell.id === target.id
       );
 
       targetGridCell.children = [
         {
           id: v4(),
-          rules: [],
-          label: "",
           elementType: elementRef.current,
         },
       ];
 
-      const updatedTargetGrid = {
-        ...formContents[targetGridIndex].children,
-      };
+      targetGrid.children = targetGrid.children.map((cell) =>
+        cell.id === targetGridCell.id ? targetGridCell : cell
+      );
 
-      console.log({ updatedTargetGrid });
+      setFormContents(
+        formContents.map((grid) => {
+          if (grid.id === targetGrid.id) {
+            return targetGrid;
+          }
+          return grid;
+        })
+      );
 
       elementRef.current = null;
     }
   };
 
-  console.log({ formContents, el: elementRef.current });
+  const addOrRemoveGridCell = (type = "-", id) => {
+    const grid = formContents.find((content) => content.id === id);
+
+    if (!grid) {
+      return;
+    }
+
+    let { children } = grid;
+
+    if (type === "+") {
+      children.push({ id: v4(), children: [], elementType: "cell" });
+    }
+
+    if (type === "-") {
+      if (children.length === 1) return;
+      children = children.filter(
+        (child) => children[children.length - 1].id !== child.id
+      );
+    }
+
+    grid.children = children;
+
+    setFormContents(
+      formContents.map((content) => {
+        if (content.id === grid.id) {
+          return grid;
+        }
+        return grid;
+      })
+    );
+  };
 
   useEffect(() => {
     setFormContents([
       {
         id: v4(),
-        Element: GridContainer,
-        elementType: elementRef.current,
-        cells: [{ id: v4(), children: [] }],
+        elementType: "grid",
+        children: [{ id: v4(), children: [], elementType: "cell" }],
       },
     ]);
   }, []);
+
+  console.log({ formContents });
 
   return (
     <AppContainer>
@@ -136,8 +175,12 @@ const App = () => {
         <FormsLayoutBuilder
           onDragLeave={(e) => handleDrop({ e, onDragEl: "GRID" })}
         >
-          {formContents.map(({ Element, id, cells }) => (
-            <Element key={id} passedEl={elementRef} cells={cells} />
+          {formContents.map(({ id, children }) => (
+            <GridContainer
+              key={id}
+              cells={children}
+              addOrRemoveGridCell={(type) => addOrRemoveGridCell(type, id)}
+            />
           ))}
         </FormsLayoutBuilder>
         <FormsLayoutBuilderFooter>
