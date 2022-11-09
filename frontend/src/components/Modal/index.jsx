@@ -38,6 +38,9 @@ export const ModalContent = styled.div`
 export const ModalFooter = styled.div`
   width: 96%;
   height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Modal;

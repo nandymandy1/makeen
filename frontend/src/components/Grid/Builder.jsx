@@ -23,8 +23,8 @@ export const GridRowController = styled.div`
 
 export const GridCell = styled.div`
   flex: 1;
-  height: 140px;
   padding: 10px;
+  min-height: 140px;
   border: 1px rgba(0, 0, 0, 0.4) dashed;
 `;
 
@@ -44,8 +44,29 @@ export const Input = ({ id, label = "", ...restProps }) => {
   );
 };
 
-export const Checkbox = ({ id, label = "", ...restProps }) => {
-  return null;
+export const CheckboxGroup = ({
+  id,
+  opts = [],
+  label = "",
+  defaultValue = null,
+  ...restProps
+}) => {
+  return (
+    <>
+      {label && <label htmlFor={id}>{label}</label>}
+      <TextInput type="text" id={id} {...restProps} />
+    </>
+  );
+};
+
+const FieldRenderer = {
+  input: (field) => <Input {...field} />,
+  checkbox: (field) => <CheckboxGroup {...field} />,
+};
+
+export const FormField = ({ contents }) => {
+  const [field] = contents;
+  return (FieldRenderer[field.elementType] || FieldRenderer["input"])(field);
 };
 
 export const GridContainer = ({
@@ -54,7 +75,9 @@ export const GridContainer = ({
 }) => (
   <GridBuilderContainer>
     {cells.map((col) => (
-      <GridCell id={col.id} key={col.id} className="cell"></GridCell>
+      <GridCell id={col.id} key={col.id} className="cell">
+        {col.children.length > 0 && <FormField contents={col.children} />}
+      </GridCell>
     ))}
     <GridRowController>
       <IconButton

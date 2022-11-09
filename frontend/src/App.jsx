@@ -1,21 +1,21 @@
 import AppContainer, { AppContent, AppSidebar } from "@components/AppLayout";
 import MkButton from "@components/Button";
-import IconButton from "@components/Button/IconButton";
 import {
   FormsContainer,
   FormsLayoutBuilder,
   FormsLayoutBuilderFooter,
 } from "@components/Form";
 import { GridContainer } from "@components/Grid/Builder";
-import Modal, { ModalContent, ModalHeader } from "@components/Modal";
+import FieldRulesForm from "@components/Grid/FieldForm";
 import { Heading } from "@components/Typography";
 import Widget, { WidgetContainer } from "@components/Widget";
 import useArray from "@hooks/useArray";
 import useToggle from "@hooks/useToggle";
 import { useEffect, useRef, useState } from "react";
 import { BiDownload } from "react-icons/bi";
-import { MdOutlineClose } from "react-icons/md";
 import { v4 } from "uuid";
+import PreviewForm from "@components/Grid/Preview";
+import { useConfirmationModalContext } from "@components/Modal/ConfirmationModal";
 
 const Widgets = [
   { title: "Input", type: "input" },
@@ -26,6 +26,7 @@ const Widgets = [
 ];
 
 const App = () => {
+  const formRef = useRef(null);
   const elementRef = useRef(null);
   const [isOpen, toggleModal] = useToggle();
 
@@ -41,9 +42,11 @@ const App = () => {
     setFormContents,
   ] = useArray([]);
 
+  const modalContext = useConfirmationModalContext();
+
   const handleDrag = ({ props: { type } }) => (elementRef.current = type);
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     if (elementRef.current === "grid" && e.onDragEl === "GRID") {
       setFormContents([
         ...formContents,
@@ -61,6 +64,16 @@ const App = () => {
     if (e.e.target.className.includes("cell")) {
       const { target } = e.e;
 
+      const result = await modalContext.showConfirmation(
+        "Set Input Field Rules",
+        <FieldRulesForm ref={formRef} type={elementRef.current} />
+      );
+
+      if (!result) {
+        elementRef.current = null;
+        return;
+      }
+
       let targetGrid = formContents.find((grid) =>
         grid.children.some((cell) => cell.id === target.id)
       );
@@ -73,8 +86,11 @@ const App = () => {
         {
           id: v4(),
           elementType: elementRef.current,
+          ...formRef.current.getFormValue(),
         },
       ];
+
+      formRef.current.resetForm();
 
       targetGrid.children = targetGrid.children.map((cell) =>
         cell.id === targetGridCell.id ? targetGridCell : cell
@@ -199,20 +215,11 @@ const App = () => {
         </FormsLayoutBuilderFooter>
       </AppContent>
 
-      <Modal show={isOpen}>
-        <ModalHeader>
-          <Heading
-            type="h1"
-            style={{ marginTop: -10, color: "#D8D8D8", fontSize: "2.5em" }}
-          >
-            Preview
-          </Heading>
-          <IconButton onClick={toggleModal}>
-            <MdOutlineClose color="#000" />
-          </IconButton>
-        </ModalHeader>
-        <ModalContent></ModalContent>
-      </Modal>
+      <PreviewForm
+        isOpen={isOpen}
+        form={formContents}
+        toggleModal={toggleModal}
+      />
     </AppContainer>
   );
 };
