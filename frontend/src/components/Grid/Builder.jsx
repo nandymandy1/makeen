@@ -1,8 +1,6 @@
 import IconButton from "@components/Button/IconButton";
-import { useState } from "react";
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
 import styled from "styled-components";
-import { v4 } from "uuid";
 
 export const GridBuilderContainer = styled.div`
   width: 98%;
@@ -46,33 +44,35 @@ export const Input = ({ id, label = "", ...restProps }) => {
   );
 };
 
+export const Checkbox = ({ id, label = "", ...restProps }) => {
+  return null;
+};
+
 export const GridContainer = ({
   cells = [],
   addOrRemoveGridCell = () => {},
-}) => {
-  return (
-    <GridBuilderContainer>
-      {cells.map((col) => (
-        <GridCell id={col.id} key={col.id} className="cell"></GridCell>
-      ))}
-      <GridRowController>
-        <IconButton
-          rounded
-          width={25}
-          height={25}
-          onClick={() => addOrRemoveGridCell("+")}
-        >
-          <BsPlusLg size={13} color="rgba(0,0,0,0.4)" />
-        </IconButton>
-        <IconButton
-          rounded
-          width={25}
-          height={25}
-          onClick={() => addOrRemoveGridCell("-")}
-        >
-          <BsDashLg size={13} color="rgba(0,0,0,0.4)" />
-        </IconButton>
-      </GridRowController>
-    </GridBuilderContainer>
-  );
-};
+}) => (
+  <GridBuilderContainer>
+    {cells.map((col) => (
+      <GridCell id={col.id} key={col.id} className="cell"></GridCell>
+    ))}
+    <GridRowController>
+      <IconButton
+        rounded
+        width={25}
+        height={25}
+        onClick={() => addOrRemoveGridCell("+")}
+      >
+        <BsPlusLg size={13} color="rgba(0,0,0,0.4)" />
+      </IconButton>
+      <IconButton
+        rounded
+        width={25}
+        height={25}
+        onClick={() => addOrRemoveGridCell("-")}
+      >
+        <BsDashLg size={13} color="rgba(0,0,0,0.4)" />
+      </IconButton>
+    </GridRowController>
+  </GridBuilderContainer>
+);

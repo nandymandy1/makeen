@@ -2,21 +2,19 @@ import { BiMove } from "react-icons/bi";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const WidgetContent = ({ title, onDrag = () => {}, ...props }) => {
-  return (
-    <div
-      draggable="true"
-      onDragEnd={(e) => onDrag({ e, props, eventType: "END" })}
-      onDragStart={(e) => onDrag({ e, props, eventType: "START" })}
-      {...props}
-    >
-      <div className="widget-container">
-        <BiMove size={20} />
-        <div className="widget-label">{title}</div>
-      </div>
+const WidgetContent = ({ title, onDrag = () => {}, ...props }) => (
+  <div
+    draggable="true"
+    onDragEnd={(e) => onDrag({ e, props, eventType: "END" })}
+    onDragStart={(e) => onDrag({ e, props, eventType: "START" })}
+    {...props}
+  >
+    <div className="widget-container">
+      <BiMove size={20} />
+      <div className="widget-label">{title}</div>
     </div>
-  );
-};
+  </div>
+);
 
 export const WidgetContainer = styled.div`
   width: 100%;

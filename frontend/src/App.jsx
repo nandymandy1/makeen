@@ -41,9 +41,7 @@ const App = () => {
     setFormContents,
   ] = useArray([]);
 
-  const handleDrag = ({ props: { type } }) => {
-    elementRef.current = type;
-  };
+  const handleDrag = ({ props: { type } }) => (elementRef.current = type);
 
   const handleDrop = (e) => {
     if (elementRef.current === "grid" && e.onDragEl === "GRID") {
@@ -92,10 +90,11 @@ const App = () => {
       );
 
       elementRef.current = null;
+      return;
     }
   };
 
-  const addOrRemoveGridCell = (type = "-", id) => {
+  const addOrRemoveGridCell = (type = "+", id) => {
     const grid = formContents.find((content) => content.id === id);
 
     if (!grid) {
@@ -118,12 +117,9 @@ const App = () => {
     grid.children = children;
 
     setFormContents(
-      formContents.map((content) => {
-        if (content.id === grid.id) {
-          return grid;
-        }
-        return grid;
-      })
+      formContents.map((formGrid) =>
+        formGrid.id === grid.id ? grid : formGrid
+      )
     );
   };
 

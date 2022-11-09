@@ -4,6 +4,7 @@ import rootReducer from "./Reducers";
 import thunk from "redux-thunk";
 
 const composeEnhancers = composeWithDevTools({});
+
 const middleware = [thunk];
 
 const store = createStore(
