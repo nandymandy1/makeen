@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:wght@100;200;300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Luckiest+Guy&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:wght@100;200;300;400;500;600;700&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 @import "./variables";
 
 body {
   margin: 0;
   padding: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 * {
@@ -13,39 +13,105 @@ body {
   padding: 0;
 }
 
-.grid {
-  background-color: #fff;
-  color: #444;
-  /* Use flexbox */
-  display: flex;
-
-  .box {
-    background-color: #fff;
-    color: #000;
-    border-radius: 5px;
-    padding: 20px;
-    font-size: 150%;
-    border: 1px rgba(#000, 0.3) dashed;
-
-    /* Use box-sizing so that element's outerwidth will match width property */
-    box-sizing: border-box;
-
-    /* Allow box to grow and shrink, and ensure they are all equally sized */
-    flex: 1 1 auto;
-  }
-
-  .handler {
-    width: 2px;
-    padding: 0;
-    cursor: ew-resize;
-    flex: 0 0 auto;
-    &::before {
-      content: "";
-      display: block;
-      width: 1px;
-      height: 100%;
-      margin: 0 auto;
-      background: rgba(#000, 0.3);
-    }
-  }
+.w-50 {
+  width: 50%;
 }
+
+.text-center {
+  text-align: center;
+}
+
+p {
+  margin: 10px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.card {
+  --padding: 1rem;
+  background: white;
+  border: 1px solid #777;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.card.card-shadow {
+  border: none;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  font-size: 1.5rem;
+  padding: var(--padding);
+  padding-bottom: 0;
+  margin-bottom: 0.5rem;
+}
+
+.card-header.card-image {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-header.card-image > img {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  transition: 200ms transform ease-in-out;
+}
+
+.card:hover > .card-header.card-image > img {
+  transform: scale(1.025);
+}
+
+.card-body {
+  font-size: 0.9rem;
+  padding: 0 var(--padding);
+}
+
+.card-footer {
+  margin-top: 1rem;
+  padding: var(--padding);
+  padding-top: 0;
+}
+
+/*
+.btn {
+  --color: hsl(200, 50%, 50%);
+  background: var(--color);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  padding: 0.5em 0.75em;
+  border-radius: 0.25em;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:focus {
+  background: hsl(200, 50%, 60%);
+}
+
+.btn.btn-outline {
+  background: none;
+  border: 1px solid var(--color);
+  color: var(--color);
+}
+
+.btn.btn-outline:hover,
+.btn.btn-outline:focus {
+  background: hsl(200, 50%, 90%);
+}
+
+.btn + .btn {
+  margin-left: 0.25rem;
+}
+
+*/
