@@ -25,22 +25,24 @@ const UserSchema = new Schema(
     },
     verified: {
       type: Boolean,
-      default: false,
+      default: true,
     },
-    verificationCode: {
-      type: String,
-      required: false,
-    },
-    resetPasswordToken: {
-      type: String,
-      required: false,
-    },
-    resetPasswordExpiresIn: {
-      type: Date,
-      required: false,
-    },
+    // verificationCode: {
+    //   type: String,
+    //   required: false,
+    // },
+    // resetPasswordToken: {
+    //   type: String,
+    //   required: false,
+    // },
+    // resetPasswordExpiresIn: {
+    //   type: Date,
+    //   required: false,
+    // },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 UserSchema.pre("save", async function (next) {

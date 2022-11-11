@@ -2,11 +2,17 @@ import express, { json } from "express";
 import cors from "cors";
 import { DB, PORT } from "./constants";
 import mongoose from "mongoose";
+import passport from "passport";
+
+import { UserRouter } from "./apis";
 
 const app = express();
 
 app.use(cors());
 app.use(json());
+app.use(passport.initialize());
+
+app.use("/users", UserRouter);
 
 const main = async () => {
   try {
