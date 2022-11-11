@@ -4,18 +4,14 @@ import Card from "@components/Card";
 import PublicPageContainer from "@components/PublicPageContainer";
 import { useState } from "react";
 import { SiFormstack } from "react-icons/si";
-
-const Input = ({ label = "", id, type = "text", ...restProps }) => (
-  <div className="form-group">
-    {label && <label htmlFor={id}>{label}</label>}
-    <input className="input" id={id} type={type} {...restProps} />
-  </div>
-);
+import CheckboxGroup from "@components/Inputs/Checkbox";
+import Input from "@components/Inputs/Input";
 
 const Login = () => {
   const [user, setUser] = useState({
     username: "",
     password: "",
+    rememberMe: false,
   });
 
   const handleChange = ({ target: { name, value } }) =>
@@ -27,13 +23,11 @@ const Login = () => {
         <div className="card-header">
           <h4>Login</h4>
         </div>
-
         <div className="card-header card-image">
           <BrandLink to="/auth/login" style={{ marginLeft: 0 }}>
             <SiFormstack size={35} color="#047aff" /> <h2>Formly.</h2>
           </BrandLink>
         </div>
-
         <div className="card-body">
           <div className="form">
             <div className="form-group">
@@ -52,8 +46,8 @@ const Login = () => {
                 type="password"
                 name="password"
                 label="Password"
-                placeholder="Password"
                 value={user.password}
+                placeholder="Password"
                 onChange={handleChange}
               />
             </div>

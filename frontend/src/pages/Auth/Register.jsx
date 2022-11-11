@@ -1,31 +1,70 @@
+import { BrandLink } from "@components/AppLink/AppLink";
 import MkButton from "@components/Button";
-import { Heading } from "@components/Typography";
+import Card from "@components/Card";
 import PublicPageContainer from "@components/PublicPageContainer";
-import AboutImg from "@assets/images/about.svg";
+import { useState } from "react";
+import { SiFormstack } from "react-icons/si";
+
+const Input = ({ label = "", id, type = "text", ...restProps }) => (
+  <div className="form-group">
+    {label && <label htmlFor={id}>{label}</label>}
+    <input className="input" id={id} type={type} {...restProps} />
+  </div>
+);
 
 const Register = () => {
+  const [user, setUser] = useState({
+    email: "",
+    username: "",
+    password: "",
+  });
+
+  const handleChange = ({ target: { name, value } }) =>
+    setUser({ ...user, [name]: value });
+
   return (
     <PublicPageContainer>
-      <Heading
-        type="h1"
-        style={{
-          width: "35%",
-          color: "#000",
-          marginBottom: 30,
-          textAlign: "center",
-        }}
-      >
-        Register
-      </Heading>
-      <p>Get started with your product login now.</p>
-      <p className="w-50 text-center">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel ipsum
-        dolore error doloremque aspernatur, maxime culpa dolor delectus atque
-        natus saepe, aut autem accusamus velit esse vero quasi iure nostrum
-        suscipit quo reiciendis ut! Ut dolor perferendis reiciendis placeat
-        totam, numquam perspiciatis iure dolorum deleniti dolore quis laudantium
-        rerum. Provident!
-      </p>
+      <Card className="card-shadow" style={{ width: 480 }}>
+        <div className="card-header">
+          <h4>Register</h4>
+        </div>
+
+        <div className="card-header card-image">
+          <BrandLink to="/auth/Register" style={{ marginLeft: 0 }}>
+            <SiFormstack size={35} color="#047aff" /> <h2>Formly.</h2>
+          </BrandLink>
+        </div>
+
+        <div className="card-body">
+          <div className="form">
+            <div className="form-group">
+              <Input
+                id="username"
+                name="username"
+                label="Username"
+                placeholder="Username"
+                value={user.username}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <Input
+                id="password"
+                type="password"
+                name="password"
+                label="Password"
+                value={user.password}
+                placeholder="Password"
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="card-footer">
+          <MkButton>Register</MkButton>
+          <MkButton variant="light">Login</MkButton>
+        </div>
+      </Card>
     </PublicPageContainer>
   );
 };
