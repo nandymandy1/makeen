@@ -9,9 +9,9 @@ const opts = {
 };
 
 passport.use(
-  new Strategy(opts, async ({ id }, done) => {
+  new Strategy(opts, async ({ _id }, done) => {
     try {
-      let user = await User.findById(id);
+      let user = await User.findById(_id);
       if (!user) {
         throw new Error("User not found.");
       }

@@ -56,6 +56,30 @@ UserSchema.methods.comparePassword = async function (password) {
   return await compare(password, this.password);
 };
 
+UserSchema.statics.authenticateUser = async function ({ username, password }) {
+  const user = await this.findOne({ username });
+
+  if (!user) {
+    return { success: false, message: "Username not found.", status: 404 };
+  }
+
+  const isMatch = await user.comparePassword(password);
+
+  if (!isMatch) {
+    return { success: false, message: "Invalid password.", status: 401 };
+  }
+
+  let token = await user.generateJWT();
+
+  return {
+    token,
+    status: 200,
+    success: true,
+    user: user.getUserInfo(),
+    message: "Your are now logged in.",
+  };
+};
+
 UserSchema.methods.generateJWT = async function () {
   let payload = pick(this, ["_id", "username", "email", "name", "verified"]);
   return await sign(payload, SECRET, { expiresIn: "1 day" });

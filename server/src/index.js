@@ -12,6 +12,8 @@ app.use(cors());
 app.use(json());
 app.use(passport.initialize());
 
+require("./middlewares/auth");
+
 app.use("/users", UserRouter);
 
 const main = async () => {

@@ -18,6 +18,8 @@ const REGISTER_USER = async (req, res) => {
       });
     }
 
+    user = await User.create(req.body);
+
     const token = await user.generateJWT();
 
     return res.status(201).json({
@@ -32,6 +34,17 @@ const REGISTER_USER = async (req, res) => {
   }
 };
 
-const AUTHENTICATE_USER = async (req, res) => {};
+const AUTHENTICATE_USER = async (req, res) => {
+  const result = await User.authenticateUser(req.body);
+  const { status, ...rest } = result;
 
-export { REGISTER_USER, AUTHENTICATE_USER };
+  if (!status) {
+    return res.status(status).json(rest);
+  }
+
+  return res.status(status).json(rest);
+};
+
+const GET_AUTH_USER = async (req, res) => res.status(200).json(req.user);
+
+export { REGISTER_USER, AUTHENTICATE_USER, GET_AUTH_USER };
