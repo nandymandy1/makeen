@@ -13,6 +13,7 @@ export const AppSidebar = styled.div`
 `;
 
 export const AppContent = styled.div`
+  margin-top: 80px;
   padding: 15px 25px;
   overflow-y: scroll;
   padding-bottom: 0px;

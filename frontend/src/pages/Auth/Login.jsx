@@ -1,21 +1,24 @@
 import { BrandLink } from "@components/AppLink/AppLink";
 import MkButton from "@components/Button";
 import Card from "@components/Card";
+import Input from "@components/Inputs/Input";
 import PublicPageContainer from "@components/PublicPageContainer";
+import { loginUser } from "@store/Reducers/Auth/actions";
 import { useState } from "react";
 import { SiFormstack } from "react-icons/si";
-import CheckboxGroup from "@components/Inputs/Checkbox";
-import Input from "@components/Inputs/Input";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [user, setUser] = useState({
     username: "",
     password: "",
-    rememberMe: false,
   });
 
   const handleChange = ({ target: { name, value } }) =>
     setUser({ ...user, [name]: value });
+
+  const authenticateUser = () => dispatch(loginUser(user));
 
   return (
     <PublicPageContainer>
@@ -54,7 +57,7 @@ const Login = () => {
           </div>
         </div>
         <div className="card-footer">
-          <MkButton>Login</MkButton>
+          <MkButton onClick={authenticateUser}>Login</MkButton>
           <MkButton variant="light">Register</MkButton>
         </div>
       </Card>

@@ -5,7 +5,7 @@ import { requiresAuth } from "../../middlewares/requiresAuth";
 const router = Router();
 
 router.get("/api/auth", requiresAuth, GET_AUTH_USER);
-router.post("/api/register", REGISTER_USER);
 router.post("/api/auth", AUTHENTICATE_USER);
+router.post("/api/register", REGISTER_USER);
 
 export default router;

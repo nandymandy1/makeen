@@ -1,7 +1,9 @@
 import AppLink, { BrandLink } from "@components/AppLink/AppLink";
 import { SiFormstack } from "react-icons/si";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { LinkButton } from "@components/AppLink/AppLink";
+import { logoutUser } from "@store/Reducers/Auth/actions";
 
 const AppNavbar = styled.div`
   top: 0;
@@ -18,7 +20,9 @@ const AppNavbar = styled.div`
 `;
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const { isAuth } = useSelector((state) => state.Auth);
+  const handleLogout = () => dispatch(logoutUser());
 
   return (
     <AppNavbar>
@@ -51,15 +55,15 @@ const Navbar = () => {
 
         {isAuth && (
           <>
-            <AppLink nav to="/accounts">
+            <AppLink nav to="/dashboard">
               Dashboard
             </AppLink>
-            <AppLink nav to="/accounts">
+            <AppLink nav to="/dashboard/profile">
               Profile
             </AppLink>
-            <AppLink nav to="/accounts">
+            <LinkButton nav onClick={handleLogout}>
               Logout
-            </AppLink>
+            </LinkButton>
           </>
         )}
       </div>
