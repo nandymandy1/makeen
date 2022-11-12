@@ -9,12 +9,14 @@ const PublicLayout = styled.div`
   overflow-y: scroll;
 `;
 
-const Public = () => {
-  const { isAuth } = useSelector((state) => state.Auth);
+const Public = (props) => {
+  // const { isAuth } = useSelector((state) => state.Auth);
 
-  if (isAuth) {
-    return <Navigate to="/dashboard" />;
-  }
+  // if (isAuth) {
+  //   return <Navigate to="/dashboard" />;
+  // }
+
+  console.log({ props });
 
   return (
     <PublicLayout>

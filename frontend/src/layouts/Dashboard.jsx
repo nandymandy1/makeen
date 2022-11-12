@@ -1,7 +1,6 @@
 import AppContainer, { AppContent, AppSidebar } from "@components/AppLayout";
-import { useSelector } from "react-redux";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Widget, { WidgetContainer } from "@components/Widget";
+import { Outlet } from "react-router-dom";
 
 const Widgets = [
   { title: "Input", type: "input" },
@@ -53,20 +52,10 @@ const MainSidebarContents = () => {
   </>;
 };
 
-const Dashboard = () => {
-  const { pathname } = useLocation();
-  const isFormLayout = pathname === "/form-builder";
-  const { isAuth } = useSelector((state) => state.Auth);
-
-  if (!isAuth) {
-    return <Navigate to="/auth/login" />;
-  }
-
+const Dashboard = (props) => {
   return (
     <AppContainer>
-      <AppSidebar>
-        {isFormLayout ? <FormsSidebarContent /> : <MainSidebarContents />}
-      </AppSidebar>
+      <AppSidebar></AppSidebar>
       <AppContent>
         <Outlet />
       </AppContent>
