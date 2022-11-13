@@ -12,6 +12,7 @@ const PrivateRoute = lazy(() => import("@utils/PrivateRoute"));
 const DashboardSidebar = lazy(() =>
   import("@layouts/DashboardSidebars/Dashboard")
 );
+
 const FormSidebar = lazy(() => import("@layouts/DashboardSidebars/Forms"));
 
 const App = () => {

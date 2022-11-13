@@ -23,7 +23,8 @@ body {
   width: 100%;
 }
 
-.d-flex {
+.d-flex,
+.d-inline-flex {
   display: flex;
   &.flex-column {
     flex-direction: column;

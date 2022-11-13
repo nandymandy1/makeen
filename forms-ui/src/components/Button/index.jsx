@@ -1,7 +1,13 @@
 import styled, { keyframes } from "styled-components";
 
 const StyledButton = styled.button`
-  border: 2px solid #047aff;
+  ${({ borderType = "solid" }) => ({
+    border:
+      borderType === "solid"
+        ? `2px solid #047aff`
+        : `1px ${borderType} #047aff`,
+  })}
+
   background-color: ${(props) =>
     props.variant === "outline" ? "#FFF" : "#047aff"};
   color: ${(props) => (props.variant === "outline" ? "#047aff" : "#FFF")};
@@ -61,7 +67,9 @@ export const DarkButton = styled(StyledButton)`
 
 export const CustomButton = styled(StyledButton)`
   color: ${(props) => props.text};
-  border: 2px solid ${(props) => props.border};
+  border: ${(props) => (props.borderType === "solid" ? "2px" : "1px")}
+    ${(props) => props.borderType} ${(props) => props.border};
+
   background-color: ${(props) => props.primary};
 
   &:hover {
@@ -70,7 +78,7 @@ export const CustomButton = styled(StyledButton)`
   }
 `;
 
-export const ButtonIconContent = styled(StyledButton)`
+export const ButtonIconContent = styled(CustomButton)`
   min-width: 150px;
   padding: 8px 15px;
   align-items: center;

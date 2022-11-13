@@ -59,7 +59,7 @@ const FormSidebar = () => {
       )}
       <WidgetContainer>
         <div>
-          <h2>Cell layouts</h2>
+          <h3>Cell Layouts</h3>
         </div>
         <div>
           <Widget title="Grid" type="grid" />
@@ -69,7 +69,7 @@ const FormSidebar = () => {
 
       <WidgetContainer>
         <div>
-          <h2>Form Components</h2>
+          <h3>Form Components</h3>
         </div>
         <div>
           {Widgets.map((widget) => (
