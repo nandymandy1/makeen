@@ -1,15 +1,15 @@
+import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import { useState } from "react";
-import { MdRadioButtonUnchecked, MdRadioButtonChecked } from "react-icons/md";
 
-const Radio = ({
+const Checkbox = ({
   id,
   name,
   label,
   options = [],
+  error = null,
   optProps = {
     size: 22,
   },
-  error = null,
   color = "#047aff",
   onChange = () => {},
 }) => {
@@ -24,22 +24,18 @@ const Radio = ({
     if (opt.disabled) {
       return;
     }
-
+    console.log(option);
     let updatedOpts = option.map((oopt) => {
       if (oopt.value === opt.value) {
         return {
           ...opt,
-          selected: true,
+          selected: !opt.selected,
         };
       }
-      return {
-        ...oopt,
-        selected: false,
-      };
+      return oopt;
     });
-
     setOption(updatedOpts);
-    onChange({ [name]: { ...opt, selected: true } });
+    onChange({ [name]: updatedOpts });
   };
 
   return (
@@ -58,24 +54,22 @@ const Radio = ({
             onClick={() => changeHandler(opt)}
           >
             {opt.disabled ? (
-              <MdRadioButtonUnchecked color="#909497" {...optProps} />
+              <MdCheckBoxOutlineBlank color="#909497" {...optProps} />
             ) : (
               <>
                 {!opt.selected && (
-                  <MdRadioButtonUnchecked color={color} {...optProps} />
+                  <MdCheckBoxOutlineBlank color={color} {...optProps} />
                 )}
-                {opt.selected && (
-                  <MdRadioButtonChecked color={color} {...optProps} />
-                )}
+                {opt.selected && <MdCheckBox color={color} {...optProps} />}
               </>
             )}
             <p style={{ marginLeft: 10 }}>{opt.label}</p>
           </div>
         ))}
-        {error && <p className="text-danger error-text">{error}</p>}
       </div>
+      {error && <p className="text-danger error-text">{error}</p>}
     </div>
   );
 };
 
-export default Radio;
+export default Checkbox;

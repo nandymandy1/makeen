@@ -1,3 +1,4 @@
+import Checkbox from "@components/Fields/Checkbox";
 import FileUploader from "@components/Fields/FileUploader";
 import Radio from "@components/Fields/Radio";
 
@@ -18,9 +19,23 @@ const Forms = () => {
         onChange={(e) => console.log(e)}
         label="Please choose your gender"
         options={[
-          { label: "Male", value: "male", selected: false },
-          { label: "Female", value: "female", selected: false },
-          { label: "Other", value: "others", selected: false, disabled: true },
+          { label: "Male", value: "male", selected: true },
+          { label: "Female", value: "female" },
+          { label: "Other", value: "others", disabled: true },
+        ]}
+        error="Something went wrong..."
+      />
+      <Checkbox
+        name="dishes"
+        id="user_dishes"
+        optProps={{ size: 25 }}
+        onChange={(e) => console.log(e)}
+        label="Please choose your Favourite Dishes"
+        options={[
+          { label: "Pizza", value: "pizza" },
+          { label: "Burger", value: "burger" },
+          { label: "Noodles", value: "Noodles" },
+          { label: "Pasta", value: "pasta", disabled: true },
         ]}
       />
     </div>
