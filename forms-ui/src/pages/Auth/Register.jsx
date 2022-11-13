@@ -19,7 +19,7 @@ const Register = () => {
     name: "",
   });
 
-  const registerUser = () => {
+  const register = () => {
     // const { username, password } = user;
     // if (!username) {
     //   console.log("Username should not be empty.");
@@ -87,7 +87,7 @@ const Register = () => {
           </form>
         </div>
         <div className="card-footer d-flex justify-content-evenly align-items-center">
-          <StyledButton onClick={registerUser} pill="pill">
+          <StyledButton onClick={register} pill="pill">
             Register
           </StyledButton>
           <CustomButton

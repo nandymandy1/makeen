@@ -26,7 +26,7 @@ const Checkbox = ({
     if (opt.disabled) {
       return;
     }
-    console.log(option);
+
     let updatedOpts = option.map((oopt) => {
       if (oopt.value === opt.value) {
         return {

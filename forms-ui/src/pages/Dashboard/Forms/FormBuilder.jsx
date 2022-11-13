@@ -1,6 +1,7 @@
 import { FieldRenderer } from "@components/Fields";
 import { BuilderTableRenderer } from "@components/Table";
-import { addFormContent } from "@store/Reducers/Form/actions";
+import { useDialogContext } from "@hooks/useModal";
+import { setActiveDraggedElement } from "@store/Reducers/Form/actions";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -24,7 +25,22 @@ const ContentRenderer = ({ type = "table", ...restProps }) =>
 
 const FormBuilder = () => {
   const dispatch = useDispatch();
-  const handleElementDrop = () => dispatch(addFormContent());
+  const { showDialog } = useDialogContext();
+
+  const handleElementDrop = async () => {
+    const confirmed = await showDialog({
+      body: <></>,
+      cancelButtonText: "Cancel",
+      okayButtonText: "Add Field",
+      title: <h4>Add Field Properties</h4>,
+    });
+
+    if (!confirmed) {
+      dispatch(setActiveDraggedElement(null));
+      return;
+    }
+  };
+
   const { formContents = [] } = useSelector((state) => state.Form.formBuilder);
 
   return (

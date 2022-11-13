@@ -8,12 +8,10 @@ const Auth = lazy(() => import("@layouts/Auth"));
 const Public = lazy(() => import("@layouts/Public"));
 const PrivateRoute = lazy(() => import("@utils/PrivateRoute"));
 
-// Sidebar Imports
+const FormSidebar = lazy(() => import("@layouts/DashboardSidebars/Forms"));
 const DashboardSidebar = lazy(() =>
   import("@layouts/DashboardSidebars/Dashboard")
 );
-
-const FormSidebar = lazy(() => import("@layouts/DashboardSidebars/Forms"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,7 +37,6 @@ const App = () => {
               <Route {...route} />
             ))}
           </Route>
-
           <Route path="/forms" element={<Auth sidebar={FormSidebar} />}>
             {FormsRoutes.map((route) => (
               <Route {...route} />
