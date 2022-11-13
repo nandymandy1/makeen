@@ -1,11 +1,11 @@
 import "@assets/scss/main.scss";
+import DialogProvider from "@components/Modal/Dialog";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import store from "./store";
-import { BrowserRouter as Router } from "react-router-dom";
-import DialogProvider from "@components/Modal/Dialog";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -18,3 +18,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </Provider>
   </React.StrictMode>
 );
+
+/**
+ * TODO:
+ * Delete Form Content
+ * Todo Add Text Form Content
+ * Drag fix position of Form Content
+ * Form to set props of the form fileds
+ */

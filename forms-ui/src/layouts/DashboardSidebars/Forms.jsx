@@ -1,11 +1,10 @@
-import FormsContainer from "@components/Forms/FormsContainer";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { IconButtonRounded } from "@components/Button";
+import FormsContainer from "@components/Forms/FormsContainer";
+import Widget, { WidgetContainer } from "@components/Widget";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import Widget, { WidgetContainer } from "@components/Widget";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const FormLink = styled(Link)`
   color: #000;
@@ -13,6 +12,8 @@ const FormLink = styled(Link)`
   div {
     border-radius: 5px;
     padding: 10px 15px;
+    font-size: 0.9em;
+    font-weight: 500;
     &:hover {
       background-color: #fff;
     }
