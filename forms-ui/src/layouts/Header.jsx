@@ -1,10 +1,50 @@
-import { SiFormstack } from "react-icons/si";
 import AppLink, { BrandLink, LinkButton } from "@components/AppLink";
 import { Navbar } from "@components/Layouts";
-import { useSelector } from "react-redux";
+import { logoutUser } from "@store/Reducers/Auth/actions";
+import { SiFormstack } from "react-icons/si";
+import { useDispatch, useSelector } from "react-redux";
+
+const PublicLinks = [
+  { title: "Home", path: "/" },
+  { title: "About Us", path: "/about-us" },
+  {
+    title: "Services",
+    path: "/services",
+  },
+  {
+    title: "Contact Us",
+    path: "/contact-us",
+  },
+  {
+    title: "Login",
+    path: "/auth/login",
+  },
+  {
+    title: "Register",
+    path: "/auth/register",
+  },
+];
+
+const AuthLinks = [
+  {
+    title: "Dashboard",
+    path: "/dashboard",
+  },
+  {
+    title: "Forms",
+    path: "/forms",
+  },
+  {
+    title: "Profile",
+    path: "/dashboard/profile",
+  },
+];
 
 const Header = () => {
+  const dispatch = useDispatch();
   const { isAuth } = useSelector((state) => state.Auth);
+
+  const handleLogoutClick = () => dispatch(logoutUser());
 
   return (
     <Navbar>
@@ -17,38 +57,22 @@ const Header = () => {
       <div>
         {!isAuth && (
           <>
-            <AppLink nav={true} to="/">
-              Home
-            </AppLink>
-            <AppLink nav={true} to="/about-us">
-              About Us
-            </AppLink>
-            <AppLink nav={true} to="/services">
-              Services
-            </AppLink>
-            <AppLink nav={true} to="/contact-us">
-              Contact Us
-            </AppLink>
-            <AppLink nav={true} to="/auth/login">
-              Login
-            </AppLink>
-            <AppLink nav={true} to="/auth/register">
-              Register
-            </AppLink>
+            {PublicLinks.map(({ title, path }) => (
+              <AppLink nav={true} key={title} to={path}>
+                {title}
+              </AppLink>
+            ))}
           </>
         )}
-        {!isAuth && (
+
+        {isAuth && (
           <>
-            <AppLink nav={true} to="/dashboard">
-              Dashboard
-            </AppLink>
-            <AppLink nav={true} to="/dashbord/forms">
-              Forms
-            </AppLink>
-            <AppLink nav={true} to="/dashboard/profile">
-              Profile
-            </AppLink>
-            <LinkButton>Logout</LinkButton>
+            {AuthLinks.map(({ title, path }) => (
+              <AppLink nav={true} key={title} to={path}>
+                {title}
+              </AppLink>
+            ))}
+            <LinkButton onClick={handleLogoutClick}>Logout</LinkButton>
           </>
         )}
       </div>

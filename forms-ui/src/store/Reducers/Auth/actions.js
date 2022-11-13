@@ -1,9 +1,10 @@
 import apiClient from "@services";
 import { setToken } from "@services/index";
-import { SET_AUTH_USER, LOGIN_USER, LOGOUT_USER } from "./types";
+import { AUTH_LOADING, LOGIN_USER, LOGOUT_USER, SET_AUTH_USER } from "./types";
 
 export const loginUser = (user) => async (dispatch) => {
   try {
+    dispatch(setAuthLoading(true));
     const { data } = await apiClient.post("/users/api/auth", user);
     console.log({ data });
     dispatch({
@@ -13,6 +14,8 @@ export const loginUser = (user) => async (dispatch) => {
     dispatch(getAuthUser(data.user));
   } catch (err) {
     console.log("LOGIN_ERR", err);
+  } finally {
+    dispatch(setAuthLoading(false));
   }
 };
 
@@ -22,7 +25,6 @@ export const initApp = () => async (dispatch) => {
     if (!token) {
       return;
     }
-
     setToken(token);
     dispatch(getAuthUser());
   } catch (err) {
@@ -42,6 +44,8 @@ export const getAuthUser =
         return;
       }
 
+      dispatch(setAuthLoading(true));
+
       const { data } = await apiClient.get("/users/api/auth");
 
       dispatch({
@@ -56,6 +60,9 @@ export const getAuthUser =
       console.log({ data });
     } catch (err) {
       console.log("GET_AUTH_ERR", err);
+      dispatch(logoutUser());
+    } finally {
+      dispatch(setAuthLoading(false));
     }
   };
 
@@ -65,3 +72,8 @@ export const logoutUser = () => (dispatch) => {
     type: LOGOUT_USER,
   });
 };
+
+export const setAuthLoading = (payload) => ({
+  type: AUTH_LOADING,
+  payload,
+});
