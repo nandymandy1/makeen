@@ -7,6 +7,7 @@ const FileUploader = ({
   label = "",
   handleFile,
   multiple = false,
+  draggable = false,
   ...restProps
 }) => {
   const hiddenFileInput = useRef(null);
@@ -23,7 +24,7 @@ const FileUploader = ({
   const handleClick = () => hiddenFileInput.current.click();
 
   return (
-    <div style={{ marginTop: 10 }}>
+    <div style={{ marginTop: 10 }} draggable={draggable}>
       {label && (
         <label onClick={handleClick} className="field-label" htmlFor={id}>
           {label}

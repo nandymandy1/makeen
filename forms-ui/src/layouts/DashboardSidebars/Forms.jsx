@@ -30,7 +30,7 @@ const FormListItem = ({ children, path }) => (
 const Widgets = [
   { title: "Input", type: "input" },
   { title: "Checkbox", type: "checkbox" },
-  { title: "File Uploader", type: "uploader" },
+  { title: "File Uploader", type: "file" },
   { title: "Text", type: "text" },
   { title: "Divider", type: "divider" },
 ];

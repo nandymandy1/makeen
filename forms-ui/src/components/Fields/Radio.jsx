@@ -11,6 +11,7 @@ const Radio = ({
   },
   error = null,
   color = "#047aff",
+  draggable = false,
   onChange = () => {},
 }) => {
   const [option, setOption] = useState(
@@ -43,7 +44,7 @@ const Radio = ({
   };
 
   return (
-    <div style={{ marginTop: 10 }}>
+    <div style={{ marginTop: 10 }} draggable={draggable}>
       {label && (
         <label className="field-label" htmlFor={id}>
           {label}

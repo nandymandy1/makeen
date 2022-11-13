@@ -29,7 +29,7 @@ export const IconInput = ({
   ...restProps
 }) => {
   return (
-    <>
+    <div>
       {label && (
         <label className="field-label" htmlFor={id}>
           {label}
@@ -47,13 +47,13 @@ export const IconInput = ({
         {Icon}
         <InputField id={id} className="form-control" {...restProps} />
       </div>
-    </>
+    </div>
   );
 };
 
-export const Input = ({ id, label = "", ...restProps }) => {
+export const Input = ({ id, draggable = false, label = "", ...restProps }) => {
   return (
-    <div style={{ marginTop: 10 }}>
+    <div style={{ marginTop: 10 }} draggable={draggable}>
       {label && (
         <label className="field-label" htmlFor={id}>
           {label}

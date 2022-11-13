@@ -1,14 +1,14 @@
+import { setActiveDraggedElement } from "@store/Reducers/Form/actions";
 import { BiMove } from "react-icons/bi";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
-const WidgetContent = ({ title, onDrag = () => {}, ...props }) => {
+const WidgetContent = ({ title, type, ...props }) => {
+  const dispatch = useDispatch();
+  const onDrag = () => dispatch(setActiveDraggedElement(type));
+
   return (
-    <div
-      draggable="true"
-      onDragEnd={(e) => onDrag({ e, props, eventType: "END" })}
-      onDragStart={(e) => onDrag({ e, props, eventType: "START" })}
-      {...props}
-    >
+    <div draggable="true" onDragStart={onDrag} {...props}>
       <div className="widget-container">
         <BiMove size={20} />
         <div className="widget-label">{title}</div>
