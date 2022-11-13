@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { IconButtonRounded } from "@components/Button";
 import { AiOutlinePlus } from "react-icons/ai";
-import { v4 } from "uuid";
+import { useSelector } from "react-redux";
 
 const FormLink = styled(Link)`
   color: #000;
@@ -35,12 +35,14 @@ const Widgets = [
 ];
 
 const FormSidebar = () => {
-  const [forms, setForms] = useState([
-    { title: "Form One", id: v4() },
-    { title: "Form Two", id: v4() },
-    { title: "Form Three", id: v4() },
-    { title: "Form Four", id: v4() },
-  ]);
+  // const [forms, setForms] = useState([
+  //   { title: "Form One", id: v4() },
+  //   { title: "Form Two", id: v4() },
+  //   { title: "Form Three", id: v4() },
+  //   { title: "Form Four", id: v4() },
+  // ]);
+
+  const { forms } = useSelector((state) => state.Form);
 
   return (
     <div>
