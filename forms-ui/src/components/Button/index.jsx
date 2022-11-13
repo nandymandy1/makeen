@@ -84,19 +84,18 @@ export const IconButton = ({
   suffix = false,
   icon: Icon = null,
   ...restProps
-}) => {
-  return (
-    <ButtonIconContent {...restProps}>
-      {prefix && Icon}
-      <div style={{ flexGrow: 1 }}>{children}</div>
-      {suffix && Icon}
-    </ButtonIconContent>
-  );
-};
+}) => (
+  <ButtonIconContent {...restProps}>
+    {prefix && Icon}
+    <div style={{ flexGrow: 1 }}>{children}</div>
+    {suffix && Icon}
+  </ButtonIconContent>
+);
 
 export const IconButtonRounded = styled.button`
   width: 30px;
   height: 30px;
+  cursor: pointer;
   border-radius: 5px;
   align-items: center;
   display: inline-flex;

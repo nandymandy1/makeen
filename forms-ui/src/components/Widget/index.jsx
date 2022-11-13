@@ -17,15 +17,19 @@ const WidgetContent = ({ title, onDrag = () => {}, ...props }) => (
 
 export const WidgetContainer = styled.div`
   width: 100%;
-  margin-top: 20px;
   padding-top: 20px;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
   background-color: #047aff;
 
   display: inline-flex;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
+  h2 {
+    color: #fff;
+    font-size: 1.8em;
+    margin-left: 25px;
+    font-family: "Poppins";
+  }
 `;
 
 const Widget = styled(WidgetContent)`
@@ -35,17 +39,20 @@ const Widget = styled(WidgetContent)`
   border-radius: 20px;
   border: 1px dashed #fff;
   transition: 0.3s ease-in;
+  margin: 10px 30px !important;
+
   &:hover {
     color: #047aff;
     border-color: #047aff;
     background-color: #fff;
   }
+
   .widget-container {
     height: 100%;
-    display: flex;
     margin: auto 7%;
     border-radius: 24px;
     align-items: center;
+    display: flex;
     .widget-label {
       flex-grow: 1;
       height: 100%;

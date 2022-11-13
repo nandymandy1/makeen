@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { IconButtonRounded } from "@components/Button";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import Widget, { WidgetContainer } from "@components/Widget";
 
 const FormLink = styled(Link)`
   color: #000;
@@ -35,13 +36,6 @@ const Widgets = [
 ];
 
 const FormSidebar = () => {
-  // const [forms, setForms] = useState([
-  //   { title: "Form One", id: v4() },
-  //   { title: "Form Two", id: v4() },
-  //   { title: "Form Three", id: v4() },
-  //   { title: "Form Four", id: v4() },
-  // ]);
-
   const { forms } = useSelector((state) => state.Form);
 
   return (
@@ -63,6 +57,26 @@ const FormSidebar = () => {
           </ul>
         </FormsContainer>
       )}
+      <WidgetContainer>
+        <div>
+          <h2>Cell layouts</h2>
+        </div>
+        <div>
+          <Widget title="Grid" type="grid" />
+          <Widget title="Table" type="table" />
+        </div>
+      </WidgetContainer>
+
+      <WidgetContainer>
+        <div>
+          <h2>Form Components</h2>
+        </div>
+        <div>
+          {Widgets.map((widget) => (
+            <Widget key={widget.type} {...widget} />
+          ))}
+        </div>
+      </WidgetContainer>
     </div>
   );
 };
