@@ -1,6 +1,6 @@
 import StyledButton, { CustomButton } from "@components/Button";
 import Card from "@components/Card";
-import Field from "@components/Fields/Input";
+import Field from "@components/Fields";
 import useInput from "@hooks/useInput";
 import { loginUser } from "@store/Reducers/Auth/actions";
 import { useState } from "react";
@@ -42,9 +42,9 @@ const Login = () => {
               prefix
               id="username"
               name="username"
-              control="input"
               label="Username"
               onChange={setUser}
+              control="iconInput"
               value={user.username}
               placeholder="Username"
               icon={<AiOutlineUser />}
@@ -54,8 +54,8 @@ const Login = () => {
               id="password"
               type="password"
               name="password"
-              control="input"
               label="Password"
+              control="iconInput"
               onChange={setUser}
               value={user.password}
               icon={<SiLastpass />}

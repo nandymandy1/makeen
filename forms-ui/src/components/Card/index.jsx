@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const Card = styled.div`
   --padding: 1rem;
+
   overflow: hidden;
   background: white;
   border-radius: 0.25rem;
@@ -24,8 +25,8 @@ const Card = styled.div`
       overflow: hidden;
       border-bottom: none;
       img {
-        display: block;
         width: 100%;
+        display: block;
         max-height: 200px;
         object-fit: cover;
         aspect-ratio: 16 / 9;
@@ -47,13 +48,11 @@ const Card = styled.div`
   }
 
   .card-footer {
+    display: flex;
     padding-top: 0px;
     margin-top: 1rem;
     padding: var(--padding);
     border-top: 1px solid #d5d8dc;
-    display: flex;
-    /* justify-content: center;
-    align-items: center; */
   }
 `;
 

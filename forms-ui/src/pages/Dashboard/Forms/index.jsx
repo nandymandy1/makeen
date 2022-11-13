@@ -1,19 +1,19 @@
-import Checkbox from "@components/Fields/Checkbox";
-import FileUploader from "@components/Fields/FileUploader";
-import Radio from "@components/Fields/Radio";
+import Field from "@components/Fields";
 
 const Forms = () => {
   return (
     <div>
       Forms
-      <FileUploader
+      <Field
         multiple
+        control="file"
         name="pictures"
         handleFile={(e) => console.log(e)}
         label="Plase select your profile picture"
       />
-      <Radio
+      <Field
         name="gender"
+        control="radio"
         id="user_gender"
         optProps={{ size: 25 }}
         onChange={(e) => console.log(e)}
@@ -25,9 +25,10 @@ const Forms = () => {
         ]}
         error="Something went wrong..."
       />
-      <Checkbox
+      <Field
         name="dishes"
         id="user_dishes"
+        control="checkbox"
         optProps={{ size: 25 }}
         onChange={(e) => console.log(e)}
         label="Please choose your Favourite Dishes"
@@ -38,6 +39,7 @@ const Forms = () => {
           { label: "Pasta", value: "pasta", disabled: true },
         ]}
       />
+      <Field control="textarea" label="Message" name="message" />
     </div>
   );
 };

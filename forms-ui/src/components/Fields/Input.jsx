@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import classNames from "classnames";
 
-const InputField = styled.input`
+export const InputField = styled.input`
   width: 100%;
   margin: 0em !important;
   box-sizing: border-box;
@@ -20,7 +20,7 @@ const InputField = styled.input`
   }
 `;
 
-const Input = ({
+export const IconInput = ({
   id,
   label = "",
   prefix = false,
@@ -51,11 +51,17 @@ const Input = ({
   );
 };
 
-const FieldRenderer = {
-  input: (props) => <Input {...props} />,
+export const Input = ({ id, label = "", ...restProps }) => {
+  return (
+    <div style={{ marginTop: 10 }}>
+      {label && (
+        <label className="field-label" htmlFor={id}>
+          {label}
+        </label>
+      )}
+      <div style={{ marginTop: 10 }}>
+        <InputField id={id} className="form-control" {...restProps} />
+      </div>
+    </div>
+  );
 };
-
-const Field = ({ control = "input", ...restProps }) =>
-  FieldRenderer[control](restProps);
-
-export default Field;
