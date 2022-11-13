@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import classNames from "classnames";
+import DragWrapper from "@utils/DragWrapper";
 
 export const InputField = styled.input`
   width: 100%;
@@ -51,17 +52,24 @@ export const IconInput = ({
   );
 };
 
-export const Input = ({ id, draggable = false, label = "", ...restProps }) => {
+export const Input = ({
+  id,
+  label = "",
+  draggable = "false",
+  ...restProps
+}) => {
   return (
-    <div style={{ marginTop: 10 }} draggable={draggable}>
-      {label && (
-        <label className="field-label" htmlFor={id}>
-          {label}
-        </label>
-      )}
+    <DragWrapper draggable={draggable}>
       <div style={{ marginTop: 10 }}>
-        <InputField id={id} className="form-control" {...restProps} />
+        {label && (
+          <label className="field-label" htmlFor={id}>
+            {label}
+          </label>
+        )}
+        <div style={{ marginTop: 10 }}>
+          <InputField id={id} className="form-control" {...restProps} />
+        </div>
       </div>
-    </div>
+    </DragWrapper>
   );
 };

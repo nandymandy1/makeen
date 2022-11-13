@@ -8,28 +8,23 @@ import {
 } from "@store/Reducers/Form/actions";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import styled from "styled-components";
-
-const TableContainer = styled.div`
-  margin: 15px 5px;
-  padding: 15px 5px;
-`;
+import DragWrapper from "@utils/DragWrapper";
 
 const BuilderTableRenderer = ({
-  table: { id, draggable = false, ...table },
+  table: { id, draggable = false, type: Table, ...table },
 }) => {
   const dispatch = useDispatch();
 
   return (
-    <TableContainer draggable={draggable} style={{ margin: 10 }}>
+    <DragWrapper draggable={draggable} style={{ margin: 10 }}>
       <div className="d-flex justify-content-between align-items-center">
-        <table.type>
-          {table.children.map((child) => (
-            <child.type key={child.id}>
-              {child.children.map((item) => (
-                <item.type key={item.id}>
-                  {item?.children ? (
-                    <Field {...item.children} />
+        <Table>
+          {table.children.map(({ type: Row, ...row }) => (
+            <Row key={row.id}>
+              {row.children.map(({ type: Col, ...col }) => (
+                <Col key={col.id}>
+                  {col?.children ? (
+                    <Field {...col.children} />
                   ) : (
                     <div
                       style={{
@@ -37,13 +32,15 @@ const BuilderTableRenderer = ({
                         height: 100,
                         visibility: "hidden",
                       }}
-                    ></div>
+                    >
+                      <p></p>
+                    </div>
                   )}
-                </item.type>
+                </Col>
               ))}
-            </child.type>
+            </Row>
           ))}
-        </table.type>
+        </Table>
         <div className="d-flex flex-column align-items-center justify-content-center ms-2">
           <IconButtonRounded
             rounded="full"
@@ -77,7 +74,7 @@ const BuilderTableRenderer = ({
           <AiOutlineMinus />
         </IconButtonRounded>
       </div>
-    </TableContainer>
+    </DragWrapper>
   );
 };
 

@@ -1,3 +1,4 @@
+import DragWrapper from "@utils/DragWrapper";
 import { useState } from "react";
 import { MdRadioButtonUnchecked, MdRadioButtonChecked } from "react-icons/md";
 
@@ -11,7 +12,7 @@ const Radio = ({
   },
   error = null,
   color = "#047aff",
-  draggable = false,
+  draggable = "false",
   onChange = () => {},
 }) => {
   const [option, setOption] = useState(
@@ -44,38 +45,40 @@ const Radio = ({
   };
 
   return (
-    <div style={{ marginTop: 10 }} draggable={draggable}>
-      {label && (
-        <label className="field-label" htmlFor={id}>
-          {label}
-        </label>
-      )}
+    <DragWrapper draggable={draggable}>
       <div style={{ marginTop: 10 }}>
-        {option.map((opt) => (
-          <div
-            key={opt.value}
-            style={{ marginTop: 5 }}
-            className="d-flex align-items-center"
-            onClick={() => changeHandler(opt)}
-          >
-            {opt.disabled ? (
-              <MdRadioButtonUnchecked color="#909497" {...optProps} />
-            ) : (
-              <>
-                {!opt.selected && (
-                  <MdRadioButtonUnchecked color={color} {...optProps} />
-                )}
-                {opt.selected && (
-                  <MdRadioButtonChecked color={color} {...optProps} />
-                )}
-              </>
-            )}
-            <p style={{ marginLeft: 10 }}>{opt.label}</p>
-          </div>
-        ))}
-        {error && <p className="text-danger error-text">{error}</p>}
+        {label && (
+          <label className="field-label" htmlFor={id}>
+            {label}
+          </label>
+        )}
+        <div style={{ marginTop: 10 }}>
+          {option.map((opt) => (
+            <div
+              key={opt.value}
+              style={{ marginTop: 5 }}
+              className="d-flex align-items-center"
+              onClick={() => changeHandler(opt)}
+            >
+              {opt.disabled ? (
+                <MdRadioButtonUnchecked color="#909497" {...optProps} />
+              ) : (
+                <>
+                  {!opt.selected && (
+                    <MdRadioButtonUnchecked color={color} {...optProps} />
+                  )}
+                  {opt.selected && (
+                    <MdRadioButtonChecked color={color} {...optProps} />
+                  )}
+                </>
+              )}
+              <p style={{ marginLeft: 10 }}>{opt.label}</p>
+            </div>
+          ))}
+          {error && <p className="text-danger error-text">{error}</p>}
+        </div>
       </div>
-    </div>
+    </DragWrapper>
   );
 };
 

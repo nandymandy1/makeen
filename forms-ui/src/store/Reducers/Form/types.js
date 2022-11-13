@@ -34,6 +34,22 @@ export const dummyFormContent = [
               label: "Please Enter your name",
             },
           },
+          {
+            id: v4(),
+            type: "td",
+            children: {
+              id: v4(),
+              type: "checkbox",
+              control: "checkbox",
+              label: "Please Enter your name",
+              options: [
+                { label: "Option One", value: "1" },
+                { label: "Option Two", value: "2" },
+                { label: "Option Three", value: "3" },
+                { label: "Option Four", value: "4" },
+              ],
+            },
+          },
         ],
       },
     ],
@@ -58,6 +74,10 @@ export const dummyFormContent = [
   },
   {
     id: v4(),
+    type: "divider",
+  },
+  {
+    id: v4(),
     type: "radio",
     control: "radio",
     label: "Please Enter your name",
@@ -67,5 +87,9 @@ export const dummyFormContent = [
       { label: "Option Three", value: "3" },
       { label: "Option Four", value: "4" },
     ],
+  },
+  {
+    id: v4(),
+    type: "divider",
   },
 ];

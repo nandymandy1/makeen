@@ -47,6 +47,11 @@ export const fileInputGenerator = ({ name, label = "" }) => ({
   control: "file",
 });
 
+export const dividerGenerator = () => ({
+  id: v4(),
+  type: "divider",
+});
+
 export const tableGenerator = () => ({
   id: v4(),
   type: "table",
@@ -71,6 +76,7 @@ const FieldGenerator = {
   radio: (props) => radioGenerator(props),
   row: (props) => TableRowGenerator(props),
   file: (props) => fileInputGenerator(props),
+  divider: (props) => dividerGenerator(props),
   checkbox: (props) => checkboxGenerator(props),
   column: (props) => TableColumnGenerator(props),
 };

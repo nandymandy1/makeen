@@ -24,17 +24,14 @@ const ContentRenderer = ({ type = "table", ...restProps }) =>
 
 const FormBuilder = () => {
   const dispatch = useDispatch();
-  const { formContents } = useSelector((state) => state.Form.formBuilder);
-
-  const handleElementDrop = () => {
-    dispatch(addFormContent());
-  };
+  const handleElementDrop = () => dispatch(addFormContent());
+  const { formContents = [] } = useSelector((state) => state.Form.formBuilder);
 
   return (
     <>
       <FormContainer onDragLeave={handleElementDrop} className="form-builder">
         {formContents.map((content) => (
-          <ContentRenderer draggable="true" key={content.id} {...content} />
+          <ContentRenderer key={content.id} draggable="true" {...content} />
         ))}
       </FormContainer>
     </>
