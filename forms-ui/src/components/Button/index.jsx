@@ -104,11 +104,11 @@ export const IconButtonRounded = styled.button`
   width: 30px;
   height: 30px;
   cursor: pointer;
-  border-radius: 5px;
   align-items: center;
   display: inline-flex;
   justify-content: center;
   transition: 0.2s ease-in;
+  border-radius: ${(props) => (props.rounded === "full" ? "50%" : "5px")};
   border: 1px solid rgba(0, 0, 0, 0.05);
   &:hover {
     border: 1px solid rgba(0, 0, 0, 0.1);

@@ -60,14 +60,14 @@ export const DashboardRoutes = [
     path: "profile",
     element: <Profile />,
   },
+  {
+    key: "forms",
+    path: "forms",
+    element: <Forms />,
+  },
 ];
 
 export const FormsRoutes = [
-  {
-    index: true,
-    key: "forms",
-    element: <Forms />,
-  },
   {
     key: "builder",
     path: "builder",

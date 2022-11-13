@@ -3,12 +3,12 @@ import styled from "styled-components";
 const FormsContainer = styled.div`
   padding: 10px;
   max-width: 100%;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
   background-color: #efefef;
   font-family: "Poppins", sans-serif;
   h2 {
     margin-left: 20px;
-    padding-top: 0.5rem;
+    padding-top: 0.3rem;
   }
   ul {
     max-width: 100%;

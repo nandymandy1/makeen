@@ -3,12 +3,17 @@ import Field from "@components/Fields";
 const Forms = () => {
   return (
     <div>
-      Forms
       <Field
         multiple
         control="file"
         name="pictures"
         handleFile={(e) => console.log(e)}
+        label="Plase select your profile picture"
+      />
+      <Field
+        control="input"
+        name="pictures"
+        placeholder="Something"
         label="Plase select your profile picture"
       />
       <Field
@@ -23,7 +28,6 @@ const Forms = () => {
           { label: "Female", value: "female" },
           { label: "Other", value: "others", disabled: true },
         ]}
-        error="Something went wrong..."
       />
       <Field
         name="dishes"

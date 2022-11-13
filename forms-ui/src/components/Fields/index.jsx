@@ -4,7 +4,7 @@ import { IconInput, Input } from "./Input";
 import Radio from "./Radio";
 import Textarea from "./Textarea";
 
-const FieldRenderer = {
+export const FieldRenderer = {
   radio: (props) => <Radio {...props} />,
   input: (props) => <Input {...props} />,
   checkbox: (props) => <Checkbox {...props} />,

@@ -32,7 +32,7 @@ const AuthLinks = [
   },
   {
     title: "Forms",
-    path: "/forms",
+    path: "/dashboard/forms",
   },
   {
     title: "Profile",
