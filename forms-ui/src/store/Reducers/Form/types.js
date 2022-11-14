@@ -92,4 +92,9 @@ export const dummyFormContent = [
     id: v4(),
     type: "divider",
   },
+  {
+    id: v4(),
+    type: "text",
+    content: "This is dummy paragraph text.",
+  },
 ];
