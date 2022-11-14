@@ -3,6 +3,7 @@ import { useDialogContext } from "@hooks/useModal";
 import {
   addFormContent,
   setActiveDraggedElement,
+  reOrderFormContents,
 } from "@store/Reducers/Form/actions";
 import { useDispatch, useSelector } from "react-redux";
 import ContentRenderer from "@components/Forms/FormContentRenderer";
@@ -45,8 +46,16 @@ const FormBuilder = () => {
     }
   };
 
-  const reOrderElementPos = (i, e) => {
-    console.log(e);
+  const dragItem = useRef(null);
+  const dragOverItem = useRef(null);
+
+  const handleSort = (e) => {
+    let _formContents = [...formContents];
+    const draggedItemContent = _formContents.splice(dragItem.current, 1)[0];
+    _formContents.splice(dragOverItem.current, 0, draggedItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    dispatch(reOrderFormContents(_formContents));
   };
 
   const { formContents = [] } = useSelector((state) => state.Form.formBuilder);
@@ -58,7 +67,15 @@ const FormBuilder = () => {
         onDragLeave={handleElementDrop}
       >
         {formContents.map((content, i) => (
-          <ContentRenderer key={content.id} draggable="true" {...content} />
+          <ContentRenderer
+            onDragEnd={handleSort}
+            onDragOver={(e) => e.preventDefault()}
+            onDragStart={() => (dragItem.current = i)}
+            onDragEnter={() => (dragOverItem.current = i)}
+            key={content.id}
+            draggable="true"
+            {...content}
+          />
         ))}
       </FormBuilderContainer>
     </>

@@ -14,7 +14,20 @@ const Checkbox = ({
   color = "#047aff",
   draggable = "false",
   onChange = () => {},
+  onDragEnter = () => {},
+  onDragStart = () => {},
+  onDragOver = () => {},
+  onDragEnd = () => {},
+  onDragOver = () => {},
 }) => {
+  const dragProps = {
+    onDragEnd,
+    onDragEnter,
+    onDragOver,
+    onDragStart,
+    onDragOver,
+  };
+
   const [option, setOption] = useState(
     options.map((opt) => ({
       ...opt,
@@ -41,7 +54,7 @@ const Checkbox = ({
   };
 
   return (
-    <DragWrapper draggable={draggable}>
+    <DragWrapper draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label className="field-label" htmlFor={id}>

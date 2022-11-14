@@ -9,9 +9,22 @@ const FileUploader = ({
   handleFile,
   multiple = false,
   draggable = "false",
+  onDragEnter = () => {},
+  onDragStart = () => {},
+  onDragOver = () => {},
+  onDragEnd = () => {},
+  onDragOver = () => {},
   ...restProps
 }) => {
   const hiddenFileInput = useRef(null);
+
+  const dragProps = {
+    onDragEnd,
+    onDragEnter,
+    onDragOver,
+    onDragStart,
+    onDragOver,
+  };
 
   const handleChange = ({ target: { files, name } }) => {
     if (multiple) {
@@ -25,7 +38,7 @@ const FileUploader = ({
   const handleClick = () => hiddenFileInput.current.click();
 
   return (
-    <DragWrapper draggable={draggable}>
+    <DragWrapper draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label onClick={handleClick} className="field-label" htmlFor={id}>

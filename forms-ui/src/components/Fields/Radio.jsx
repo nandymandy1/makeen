@@ -13,8 +13,20 @@ const Radio = ({
   error = null,
   color = "#047aff",
   draggable = "false",
+  onDragEnter = () => {},
+  onDragStart = () => {},
+  onDragOver = () => {},
+  onDragEnd = () => {},
   onChange = () => {},
+  onDragOver = () => {},
 }) => {
+  const dragProps = {
+    onDragEnd,
+    onDragEnter,
+    onDragOver,
+    onDragStart,
+    onDragOver,
+  };
   const [option, setOption] = useState(
     options.map((opt) => ({
       ...opt,
@@ -45,7 +57,7 @@ const Radio = ({
   };
 
   return (
-    <DragWrapper draggable={draggable}>
+    <DragWrapper draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label className="field-label" htmlFor={id}>

@@ -7,10 +7,27 @@ const DividerElement = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-const Divider = ({ draggable = "false" }) => (
-  <DragWrapper draggable={draggable}>
-    <DividerElement />
-  </DragWrapper>
-);
+const Divider = ({
+  draggable = "false",
+  onDragEnter = () => {},
+  onDragStart = () => {},
+  onDragOver = () => {},
+  onDragEnd = () => {},
+  onDragOver = () => {},
+}) => {
+  const dragProps = {
+    onDragEnd,
+    onDragEnter,
+    onDragOver,
+    onDragStart,
+    onDragOver,
+  };
+
+  return (
+    <DragWrapper draggable={draggable} {...dragProps}>
+      <DividerElement />
+    </DragWrapper>
+  );
+};
 
 export default Divider;

@@ -11,12 +11,25 @@ import { useDispatch } from "react-redux";
 import DragWrapper from "@utils/DragWrapper";
 
 const BuilderTableRenderer = ({
-  table: { id, draggable = false, type: Table, ...table },
+  table: { id, draggable = "false", type: Table, ...table },
+  onDragEnter = () => {},
+  onDragStart = () => {},
+  onDragOver = () => {},
+  onDragEnd = () => {},
+  onDragOver = () => {},
 }) => {
   const dispatch = useDispatch();
 
+  const dragProps = {
+    onDragEnd,
+    onDragEnter,
+    onDragOver,
+    onDragStart,
+    onDragOver,
+  };
+
   return (
-    <DragWrapper draggable={draggable} style={{ margin: 10 }}>
+    <DragWrapper draggable={draggable} style={{ margin: 10 }} {...dragProps}>
       <div className="d-flex justify-content-between align-items-center">
         <Table>
           {table.children.map(({ type: Row, ...row }) => (

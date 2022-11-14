@@ -56,10 +56,23 @@ export const Input = ({
   id,
   label = "",
   draggable = "false",
+  onDragEnter = () => {},
+  onDragStart = () => {},
+  onDragOver = () => {},
+  onDragEnd = () => {},
+  onDragOver = () => {},
   ...restProps
 }) => {
+  const dragProps = {
+    onDragEnd,
+    onDragEnter,
+    onDragOver,
+    onDragStart,
+    onDragOver,
+  };
+
   return (
-    <DragWrapper draggable={draggable}>
+    <DragWrapper draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label className="field-label" htmlFor={id}>

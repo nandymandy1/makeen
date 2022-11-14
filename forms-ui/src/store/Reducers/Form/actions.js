@@ -110,7 +110,10 @@ export const addFormContent =
 
 export const deleteFormContent = (id) => (dispatch, getState) => {};
 
-export const reOrderFormContents = () => (dispatch, getState) => {};
+export const reOrderFormContents = (payload) => ({
+  type: UPDATE_FORM,
+  payload,
+});
 
 export const setActiveDraggedElement = (payload) => ({
   payload,
