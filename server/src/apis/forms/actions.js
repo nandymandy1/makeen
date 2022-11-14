@@ -99,4 +99,26 @@ const GET_FORMS = async (req, res) => {
   }
 };
 
-export { CREATE_FORM, DELETE_FORM, UPDATE_FORM, GET_FORM, GET_FORMS };
+const GET_RECENT_FORMS = async (req, res) => {
+  try {
+    const forms = await Form.find()
+      .select("title _id createdAt updatedAt")
+      .sort({ updatedAt: -1 })
+      .limit(4);
+    return res.status(200).json(forms);
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error.",
+    });
+  }
+};
+
+export {
+  CREATE_FORM,
+  DELETE_FORM,
+  UPDATE_FORM,
+  GET_FORM,
+  GET_FORMS,
+  GET_RECENT_FORMS,
+};

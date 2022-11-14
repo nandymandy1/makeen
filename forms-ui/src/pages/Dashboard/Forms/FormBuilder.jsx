@@ -26,10 +26,7 @@ const FormBuilder = () => {
     (state) => state.Form.formBuilder
   );
 
-  const updateFormContents = () => {
-    dispatch(saveForm());
-  };
-
+  const updateFormContents = () => dispatch(saveForm());
   const prepareFormBuilder = () => dispatch(setFormBuilder(id, null));
 
   const handleElementDrop = async () => {
@@ -105,7 +102,7 @@ const FormBuilder = () => {
           onClick={() => {}}
           className="ms-2"
         >
-          Reset Form
+          Preview Form
         </CustomButton>
       </div>
     </>

@@ -5,6 +5,7 @@ import {
   DELETE_FORM,
   GET_FORM,
   GET_FORMS,
+  GET_RECENT_FORMS,
   UPDATE_FORM,
 } from "./actions";
 
@@ -13,6 +14,8 @@ const router = Router();
 router.post("/", requiresAuth, CREATE_FORM);
 
 router.put("/:id", requiresAuth, UPDATE_FORM);
+
+router.get("/recent-forms", requiresAuth, GET_RECENT_FORMS);
 
 router.get("/", requiresAuth, GET_FORMS);
 

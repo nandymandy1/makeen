@@ -4,6 +4,7 @@ import {
   SET_DRAGGED_ELEMENT,
   SET_FORM_BUILDER,
   SET_FORM_LOADING,
+  SET_RECENT_FORMS,
   UPDATE_FORM,
 } from "./types";
 
@@ -61,6 +62,21 @@ export const saveForm = () => async (dispatch, getState) => {
     console.log("FORM_SAVE_ERR", err);
   } finally {
     dispatch(setFormsLoading(true));
+  }
+};
+
+export const fetchRecentForms = () => async (dispatch) => {
+  try {
+    dispatch(setFormsLoading(true));
+    const { data } = await apiClient.get("/api/forms/recent-forms");
+    dispatch({
+      payload: data,
+      type: SET_RECENT_FORMS,
+    });
+  } catch (err) {
+    console.log("RECENT_FORMS_API_ERR", err);
+  } finally {
+    dispatch(setFormsLoading(false));
   }
 };
 

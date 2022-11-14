@@ -3,8 +3,8 @@ import AddForm from "@components/Forms/AddForm";
 import FormsContainer from "@components/Forms/FormsContainer";
 import Widget, { WidgetContainer } from "@components/Widget";
 import { useDialogContext } from "@hooks/useModal";
-import { createForm } from "@store/Reducers/Form/actions";
-import { useRef } from "react";
+import { createForm, fetchRecentForms } from "@store/Reducers/Form/actions";
+import { useEffect, useRef } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -46,7 +46,9 @@ const FormSidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { showDialog } = useDialogContext();
-  const { forms } = useSelector((state) => state.Form);
+  const { recentForms = [] } = useSelector((state) => state.Form);
+
+  const getRecentForms = () => dispatch(fetchRecentForms());
 
   const goToBuilder = ({ _id }) => navigate(`/forms/builder/${_id}`);
 
@@ -60,13 +62,18 @@ const FormSidebar = () => {
     if (!isConfirmed) {
       return;
     }
+
     let data = formRef.current.getFormValues();
     dispatch(createForm(data, goToBuilder));
   };
 
+  useEffect(() => {
+    getRecentForms();
+  }, []);
+
   return (
     <div>
-      {forms.length > 0 && (
+      {recentForms.length > 0 && (
         <FormsContainer>
           <div className="w-100 d-flex justfiy-content-between align-items-center">
             <h2>Forms</h2>
@@ -75,8 +82,8 @@ const FormSidebar = () => {
             </IconButtonRounded>
           </div>
           <ul>
-            {forms.map((form) => (
-              <FormListItem key={form.id} path={`/forms/${form.id}`}>
+            {recentForms.map((form) => (
+              <FormListItem key={form._id} path={`/forms/builder/${form._id}`}>
                 {form.title}
               </FormListItem>
             ))}

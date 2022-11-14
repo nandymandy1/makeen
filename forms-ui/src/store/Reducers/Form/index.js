@@ -1,25 +1,20 @@
-import { v4 } from "uuid";
 import {
   DROP_DRAGGED_ELEMENT,
   SET_DRAGGED_ELEMENT,
   SET_FORM_BUILDER,
   SET_FORM_LOADING,
+  SET_RECENT_FORMS,
   UPDATE_FORM,
 } from "./types";
 
 const initial_form_state = {
   currentForm: null,
+  recentForms: [],
+  formsLoading: false,
   formBuilder: {
     formContents: [],
     draggedElement: null,
   },
-  formsLoading: false,
-  forms: [
-    { title: "Form One", id: v4() },
-    { title: "Form Two", id: v4() },
-    { title: "Form Three", id: v4() },
-    { title: "Form Four", id: v4() },
-  ],
 };
 
 const FormReducer = (state = initial_form_state, { type, payload }) => {
@@ -36,6 +31,11 @@ const FormReducer = (state = initial_form_state, { type, payload }) => {
       return {
         ...state,
         formsLoading: payload,
+      };
+    case SET_RECENT_FORMS:
+      return {
+        ...state,
+        recentForms: payload,
       };
     case SET_FORM_BUILDER:
       return {
