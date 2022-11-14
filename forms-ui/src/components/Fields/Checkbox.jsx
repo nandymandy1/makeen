@@ -14,10 +14,10 @@ const Checkbox = ({
   color = "#047aff",
   draggable = "false",
   onChange = () => {},
-  onDragEnter = () => {},
-  onDragStart = () => {},
-  onDragOver = () => {},
   onDragEnd = () => {},
+  onDragOver = () => {},
+  onDragStart = () => {},
+  onDragEnter = () => {},
 }) => {
   const dragProps = {
     onDragEnd,

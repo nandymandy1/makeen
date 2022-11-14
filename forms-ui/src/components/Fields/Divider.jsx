@@ -9,10 +9,10 @@ const DividerElement = styled.div`
 
 const Divider = ({
   draggable = "false",
-  onDragEnter = () => {},
-  onDragStart = () => {},
-  onDragOver = () => {},
   onDragEnd = () => {},
+  onDragOver = () => {},
+  onDragStart = () => {},
+  onDragEnter = () => {},
 }) => {
   const dragProps = {
     onDragEnd,

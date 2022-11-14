@@ -3,10 +3,10 @@ import DragWrapper from "@utils/DragWrapper";
 const Text = ({
   content,
   draggable = "false",
+  onDragEnd = () => {},
+  onDragOver = () => {},
   onDragEnter = () => {},
   onDragStart = () => {},
-  onDragOver = () => {},
-  onDragEnd = () => {},
 }) => {
   const dragProps = {
     onDragEnd,

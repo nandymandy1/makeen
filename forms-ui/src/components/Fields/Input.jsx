@@ -56,10 +56,10 @@ export const Input = ({
   id,
   label = "",
   draggable = "false",
+  onDragEnd = () => {},
+  onDragOver = () => {},
   onDragEnter = () => {},
   onDragStart = () => {},
-  onDragOver = () => {},
-  onDragEnd = () => {},
   ...restProps
 }) => {
   const dragProps = {

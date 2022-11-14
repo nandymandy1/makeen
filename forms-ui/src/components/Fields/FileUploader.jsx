@@ -9,10 +9,10 @@ const FileUploader = ({
   handleFile,
   multiple = false,
   draggable = "false",
+  onDragEnd = () => {},
+  onDragOver = () => {},
   onDragEnter = () => {},
   onDragStart = () => {},
-  onDragOver = () => {},
-  onDragEnd = () => {},
   ...restProps
 }) => {
   const hiddenFileInput = useRef(null);

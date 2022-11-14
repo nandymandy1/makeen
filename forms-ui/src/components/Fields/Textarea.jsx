@@ -6,10 +6,10 @@ const Textarea = ({
   name,
   draggable = "false",
   onChange = () => {},
+  onDragEnd = () => {},
+  onDragOver = () => {},
   onDragEnter = () => {},
   onDragStart = () => {},
-  onDragOver = () => {},
-  onDragEnd = () => {},
   ...restProps
 }) => {
   const dragProps = {

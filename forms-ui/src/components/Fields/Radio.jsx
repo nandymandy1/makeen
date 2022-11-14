@@ -13,12 +13,11 @@ const Radio = ({
   error = null,
   color = "#047aff",
   draggable = "false",
+  onChange = () => {},
+  onDragEnd = () => {},
+  onDragOver = () => {},
   onDragEnter = () => {},
   onDragStart = () => {},
-  onDragOver = () => {},
-  onDragEnd = () => {},
-  
-  onChange = () => {},
 }) => {
   const dragProps = {
     onDragEnd,
