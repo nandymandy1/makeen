@@ -8,7 +8,7 @@ const FormSchema = new Schema(
     },
     formContent: {
       type: Array,
-      required: true,
+      default: [],
     },
     author: {
       type: Schema.Types.ObjectId,

@@ -4,16 +4,19 @@ import useInput from "@hooks/useInput";
 import { useSelector } from "react-redux";
 import { v4 } from "uuid";
 import { AiOutlineClose } from "react-icons/ai";
+import { forwardRef, useImperativeHandle } from "react";
 
-const FormFieldDialog = () => {
+const initialFormValues = {
+  name: "",
+  label: "",
+  placeholder: "",
+  options: [],
+  content: "",
+};
+
+const FormFieldDialog = ({}, ref) => {
+  const [form, setFormValues, updateForm] = useInput(initialFormValues);
   const { draggedElement } = useSelector((state) => state.Form.formBuilder);
-
-  const [form, setFormValues, updateForm] = useInput({
-    text: "",
-    name: "",
-    label: "",
-    options: [],
-  });
 
   const addOption = () => {
     const updatedOptions = [
@@ -35,24 +38,25 @@ const FormFieldDialog = () => {
     updateForm({ ...form, options: updatedFormOptions });
   };
 
+  useImperativeHandle(ref, () => ({
+    getFormProps: () => form,
+    resetFormProps: () => updateForm(initialFormValues),
+  }));
+
   if (draggedElement === "text") {
     return (
       <div>
         <Field
           id={v4()}
-          name="text"
           type="input"
-          value={form.text}
-          placeholder="Enter Text"
+          name="content"
+          value={form.content}
           onChange={setFormValues}
+          placeholder="Enter Text Content"
           label="Enter Text To be displayed"
         />
       </div>
     );
-  }
-
-  if (draggedElement === "table") {
-    return <></>;
   }
 
   return (
@@ -75,6 +79,17 @@ const FormFieldDialog = () => {
         label="Enter Field Label"
         placeholder="Field Label"
       />
+      {draggedElement === "input" && (
+        <Field
+          id={v4()}
+          type="input"
+          name="placeholder"
+          value={form.placeholder}
+          onChange={setFormValues}
+          label="Enter Field Placeholder"
+          placeholder="Field Placeholder"
+        />
+      )}
       {["checkbox", "radio"].includes(draggedElement) && (
         <>
           <h4 className="mb-2">Field Options</h4>
@@ -113,4 +128,4 @@ const FormFieldDialog = () => {
   );
 };
 
-export default FormFieldDialog;
+export default forwardRef(FormFieldDialog);

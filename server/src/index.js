@@ -4,7 +4,7 @@ import { DB, PORT } from "./constants";
 import mongoose from "mongoose";
 import passport from "passport";
 
-import { UserRouter } from "./apis";
+import { UserRouter, FormRouter } from "./apis";
 
 const app = express();
 
@@ -15,6 +15,7 @@ app.use(passport.initialize());
 require("./middlewares/auth");
 
 app.use("/users", UserRouter);
+app.use("/forms", FormRouter);
 
 const main = async () => {
   try {

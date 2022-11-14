@@ -94,13 +94,7 @@ export const addTableContent =
   (dispatch, getState) => {};
 
 export const addFormContent =
-  (
-    props = {
-      name: "Nandy",
-      label: "Awesome",
-      placeholder: "Something",
-    }
-  ) =>
+  (props = {}) =>
   (dispatch, getState) => {
     const { formContents, draggedElement } = getState().Form.formBuilder;
     const updatedFormContents = [
