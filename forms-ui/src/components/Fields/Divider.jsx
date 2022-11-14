@@ -13,7 +13,6 @@ const Divider = ({
   onDragStart = () => {},
   onDragOver = () => {},
   onDragEnd = () => {},
-  onDragOver = () => {},
 }) => {
   const dragProps = {
     onDragEnd,

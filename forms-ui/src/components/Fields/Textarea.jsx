@@ -10,7 +10,6 @@ const Textarea = ({
   onDragStart = () => {},
   onDragOver = () => {},
   onDragEnd = () => {},
-  onDragOver = () => {},
   ...restProps
 }) => {
   const dragProps = {

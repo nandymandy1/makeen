@@ -17,16 +17,16 @@ const Radio = ({
   onDragStart = () => {},
   onDragOver = () => {},
   onDragEnd = () => {},
+  
   onChange = () => {},
-  onDragOver = () => {},
 }) => {
   const dragProps = {
     onDragEnd,
     onDragEnter,
     onDragOver,
     onDragStart,
-    onDragOver,
   };
+
   const [option, setOption] = useState(
     options.map((opt) => ({
       ...opt,

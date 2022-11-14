@@ -11,12 +11,16 @@ import { useDispatch } from "react-redux";
 import DragWrapper from "@utils/DragWrapper";
 
 const BuilderTableRenderer = ({
-  table: { id, draggable = "false", type: Table, ...table },
-  onDragEnter = () => {},
-  onDragStart = () => {},
-  onDragOver = () => {},
-  onDragEnd = () => {},
-  onDragOver = () => {},
+  table: {
+    id,
+    type: Table,
+    draggable = "false",
+    onDragEnter = () => {},
+    onDragStart = () => {},
+    onDragOver = () => {},
+    onDragEnd = () => {},
+    ...table
+  },
 }) => {
   const dispatch = useDispatch();
 
@@ -25,7 +29,6 @@ const BuilderTableRenderer = ({
     onDragEnter,
     onDragOver,
     onDragStart,
-    onDragOver,
   };
 
   return (

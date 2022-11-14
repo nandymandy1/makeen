@@ -13,7 +13,6 @@ const FileUploader = ({
   onDragStart = () => {},
   onDragOver = () => {},
   onDragEnd = () => {},
-  onDragOver = () => {},
   ...restProps
 }) => {
   const hiddenFileInput = useRef(null);
@@ -23,7 +22,6 @@ const FileUploader = ({
     onDragEnter,
     onDragOver,
     onDragStart,
-    onDragOver,
   };
 
   const handleChange = ({ target: { files, name } }) => {

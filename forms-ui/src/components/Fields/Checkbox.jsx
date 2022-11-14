@@ -18,14 +18,12 @@ const Checkbox = ({
   onDragStart = () => {},
   onDragOver = () => {},
   onDragEnd = () => {},
-  onDragOver = () => {},
 }) => {
   const dragProps = {
     onDragEnd,
     onDragEnter,
     onDragOver,
     onDragStart,
-    onDragOver,
   };
 
   const [option, setOption] = useState(

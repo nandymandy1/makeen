@@ -60,13 +60,11 @@ export const Input = ({
   onDragStart = () => {},
   onDragOver = () => {},
   onDragEnd = () => {},
-  onDragOver = () => {},
   ...restProps
 }) => {
   const dragProps = {
     onDragEnd,
     onDragEnter,
-    onDragOver,
     onDragStart,
     onDragOver,
   };

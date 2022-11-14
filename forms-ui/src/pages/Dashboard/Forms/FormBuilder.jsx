@@ -12,9 +12,14 @@ import { useRef } from "react";
 
 const FormBuilder = () => {
   const fieldProps = useRef();
+  const dragItem = useRef(null);
+  const dragOverItem = useRef(null);
+
   const dispatch = useDispatch();
   const { showDialog } = useDialogContext();
-  const { draggedElement } = useSelector((state) => state.Form.formBuilder);
+  const { formContents = [], draggedElement } = useSelector(
+    (state) => state.Form.formBuilder
+  );
 
   const handleElementDrop = async () => {
     if (draggedElement === null) {
@@ -46,10 +51,7 @@ const FormBuilder = () => {
     }
   };
 
-  const dragItem = useRef(null);
-  const dragOverItem = useRef(null);
-
-  const handleSort = (e) => {
+  const handleSort = () => {
     let _formContents = [...formContents];
     const draggedItemContent = _formContents.splice(dragItem.current, 1)[0];
     _formContents.splice(dragOverItem.current, 0, draggedItemContent);
@@ -57,8 +59,6 @@ const FormBuilder = () => {
     dragOverItem.current = null;
     dispatch(reOrderFormContents(_formContents));
   };
-
-  const { formContents = [] } = useSelector((state) => state.Form.formBuilder);
 
   return (
     <>
