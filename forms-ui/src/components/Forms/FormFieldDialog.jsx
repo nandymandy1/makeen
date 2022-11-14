@@ -1,10 +1,10 @@
 import StyledButton, { IconButtonRounded } from "@components/Button";
 import Field from "@components/Fields";
 import useInput from "@hooks/useInput";
+import { forwardRef, useImperativeHandle } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { v4 } from "uuid";
-import { AiOutlineClose } from "react-icons/ai";
-import { forwardRef, useImperativeHandle } from "react";
 
 const initialFormValues = {
   name: "",

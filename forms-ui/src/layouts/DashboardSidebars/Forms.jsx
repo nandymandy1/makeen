@@ -9,6 +9,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useToast } from "@components/Toast";
 
 const FormLink = styled(Link)`
   color: #000;
@@ -45,11 +46,13 @@ const FormSidebar = () => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const { showDialog } = useDialogContext();
   const { recentForms = [] } = useSelector((state) => state.Form);
 
   const getRecentForms = () => dispatch(fetchRecentForms());
 
+  const successCallback = (props) => showToast(props);
   const goToBuilder = ({ _id }) => navigate(`/forms/builder/${_id}`);
 
   const addForm = async () => {
@@ -64,7 +67,7 @@ const FormSidebar = () => {
     }
 
     let data = formRef.current.getFormValues();
-    dispatch(createForm(data, goToBuilder));
+    dispatch(createForm(data, successCallback, goToBuilder));
   };
 
   useEffect(() => {

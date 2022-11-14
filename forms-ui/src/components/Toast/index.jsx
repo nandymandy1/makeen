@@ -45,9 +45,9 @@ const ToastContainer = styled.div`
   top: 10px;
   width: 450px;
   border: none;
-  height: 100px;
   padding: 10px;
   z-index: 10000;
+  min-height: 50px;
   position: absolute;
   border-radius: 10px;
   box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.1);
