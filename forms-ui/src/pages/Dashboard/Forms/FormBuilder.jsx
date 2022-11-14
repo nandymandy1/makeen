@@ -1,16 +1,21 @@
+import StyledButton, { CustomButton } from "@components/Button";
 import FormBuilderContainer from "@components/Forms/FormBuilderContainer";
+import ContentRenderer from "@components/Forms/FormContentRenderer";
+import FormFieldDialog from "@components/Forms/FormFieldDialog";
 import { useDialogContext } from "@hooks/useModal";
 import {
   addFormContent,
-  setActiveDraggedElement,
   reOrderFormContents,
+  saveForm,
+  setActiveDraggedElement,
+  setFormBuilder,
 } from "@store/Reducers/Form/actions";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ContentRenderer from "@components/Forms/FormContentRenderer";
-import FormFieldDialog from "@components/Forms/FormFieldDialog";
-import { useRef } from "react";
+import { useParams } from "react-router-dom";
 
 const FormBuilder = () => {
+  let { id } = useParams();
   const fieldProps = useRef();
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
@@ -20,6 +25,12 @@ const FormBuilder = () => {
   const { formContents = [], draggedElement } = useSelector(
     (state) => state.Form.formBuilder
   );
+
+  const updateFormContents = () => {
+    dispatch(saveForm());
+  };
+
+  const prepareFormBuilder = () => dispatch(setFormBuilder(id, null));
 
   const handleElementDrop = async () => {
     if (draggedElement === null) {
@@ -60,6 +71,10 @@ const FormBuilder = () => {
     dispatch(reOrderFormContents(_formContents));
   };
 
+  useEffect(() => {
+    prepareFormBuilder();
+  }, []);
+
   return (
     <>
       <FormBuilderContainer
@@ -78,6 +93,21 @@ const FormBuilder = () => {
           />
         ))}
       </FormBuilderContainer>
+      <div className="d-flex justify-content-center align-items-center">
+        <StyledButton pill="pill" onClick={updateFormContents}>
+          Save Form
+        </StyledButton>
+        <CustomButton
+          pill="pill"
+          text="#047aff"
+          border="#047aff"
+          primary="#F7F9F9"
+          onClick={() => {}}
+          className="ms-2"
+        >
+          Reset Form
+        </CustomButton>
+      </div>
     </>
   );
 };

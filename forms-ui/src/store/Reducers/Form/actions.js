@@ -1,9 +1,68 @@
 import FormFieldGenerator from "@utils/FieldGenerator";
 import {
-  SET_DRAGGED_ELEMENT,
-  UPDATE_FORM,
   DROP_DRAGGED_ELEMENT,
+  SET_DRAGGED_ELEMENT,
+  SET_FORM_BUILDER,
+  SET_FORM_LOADING,
+  UPDATE_FORM,
 } from "./types";
+
+import apiClient from "@services";
+
+export const createForm =
+  (form, callback = () => {}) =>
+  async (dispatch) => {
+    dispatch(setFormsLoading(true));
+    try {
+      const {
+        data: { form: formResp },
+      } = await apiClient.post("/api/forms", form);
+      dispatch(setFormBuilder(null, formResp));
+      callback(formResp);
+    } catch (err) {
+      console.log("FORM_CREATE_ERR", err);
+    } finally {
+      dispatch(setFormsLoading(false));
+    }
+  };
+
+export const setFormBuilder =
+  (id, formData = null) =>
+  async (dispatch) => {
+    dispatch(setFormsLoading(true));
+    try {
+      if (formData) {
+        dispatch({
+          payload: formData,
+          type: SET_FORM_BUILDER,
+        });
+        return;
+      } else {
+        const { data } = await apiClient.get(`/api/forms/${id}`);
+        dispatch({
+          payload: data.form,
+          type: SET_FORM_BUILDER,
+        });
+      }
+    } catch (err) {
+      console.log("FORM_BUILDER_SET_ERR", err);
+    } finally {
+      dispatch(setFormsLoading(false));
+    }
+  };
+
+export const saveForm = () => async (dispatch, getState) => {
+  try {
+    dispatch(setFormsLoading(true));
+    const { formContents, _id } = getState().Form.formBuilder;
+    const { data } = await apiClient.put(`/api/forms/${_id}`, { formContents });
+    console.log("UPDATE_FORM_DATA", data);
+  } catch (err) {
+    console.log("FORM_SAVE_ERR", err);
+  } finally {
+    dispatch(setFormsLoading(true));
+  }
+};
 
 export const addTableRow = (id) => (dispatch, getState) => {
   const { formContents } = getState().Form.formBuilder;
@@ -118,4 +177,9 @@ export const reOrderFormContents = (payload) => ({
 export const setActiveDraggedElement = (payload) => ({
   payload,
   type: SET_DRAGGED_ELEMENT,
+});
+
+export const setFormsLoading = (payload) => ({
+  type: SET_FORM_LOADING,
+  payload,
 });

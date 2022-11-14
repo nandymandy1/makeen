@@ -1,6 +1,8 @@
 import { v4 } from "uuid";
 
 export const UPDATE_FORM = "UPDATE_FORM";
+export const SET_FORM_BUILDER = "SET_FORM_BUILDER";
+export const SET_FORM_LOADING = "SET_FORM_LOADING";
 export const SET_DRAGGED_ELEMENT = "SET_DRAGGED_ELEMENT";
 export const DROP_DRAGGED_ELEMENT = "DROP_DRAGGED_ELEMENT";
 

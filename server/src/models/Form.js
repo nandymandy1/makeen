@@ -2,11 +2,15 @@ import { model, Schema } from "mongoose";
 
 const FormSchema = new Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
-    formContent: {
+    description: {
+      type: String,
+      required: true,
+    },
+    formContents: {
       type: Array,
       default: [],
     },

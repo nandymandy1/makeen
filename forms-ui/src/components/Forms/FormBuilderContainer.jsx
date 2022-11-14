@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const FormBuilderContainer = styled.div`
-  height: 80vh;
+  height: 78vh;
   padding: 10px;
   border-radius: 5px;
   overflow-y: scroll;

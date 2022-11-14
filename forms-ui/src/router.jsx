@@ -70,7 +70,7 @@ export const DashboardRoutes = [
 export const FormsRoutes = [
   {
     key: "builder",
-    path: "builder",
+    path: "builder/:id",
     element: <FormBuilder />,
   },
   {

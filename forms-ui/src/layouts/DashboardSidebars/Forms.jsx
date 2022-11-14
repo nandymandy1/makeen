@@ -1,9 +1,13 @@
 import { IconButtonRounded } from "@components/Button";
+import AddForm from "@components/Forms/AddForm";
 import FormsContainer from "@components/Forms/FormsContainer";
 import Widget, { WidgetContainer } from "@components/Widget";
+import { useDialogContext } from "@hooks/useModal";
+import { createForm } from "@store/Reducers/Form/actions";
+import { useRef } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const FormLink = styled(Link)`
@@ -38,7 +42,27 @@ const Widgets = [
 ];
 
 const FormSidebar = () => {
+  const formRef = useRef();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { showDialog } = useDialogContext();
   const { forms } = useSelector((state) => state.Form);
+
+  const goToBuilder = ({ _id }) => navigate(`/forms/builder/${_id}`);
+
+  const addForm = async () => {
+    const isConfirmed = await showDialog({
+      title: <h4>Add New Form</h4>,
+      okayButtonText: "Create Form",
+      body: <AddForm ref={formRef} />,
+    });
+
+    if (!isConfirmed) {
+      return;
+    }
+    let data = formRef.current.getFormValues();
+    dispatch(createForm(data, goToBuilder));
+  };
 
   return (
     <div>
@@ -46,7 +70,7 @@ const FormSidebar = () => {
         <FormsContainer>
           <div className="w-100 d-flex justfiy-content-between align-items-center">
             <h2>Forms</h2>
-            <IconButtonRounded>
+            <IconButtonRounded onClick={addForm}>
               <AiOutlinePlus />
             </IconButtonRounded>
           </div>
