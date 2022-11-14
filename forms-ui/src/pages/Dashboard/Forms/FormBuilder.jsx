@@ -70,7 +70,7 @@ const FormBuilder = () => {
 
   useEffect(() => {
     prepareFormBuilder();
-  }, []);
+  }, [id]);
 
   return (
     <>

@@ -95,7 +95,7 @@ const FormSidebar = () => {
           <h3>Cell Layouts</h3>
         </div>
         <div>
-          <Widget title="Grid" type="grid" />
+          {/* <Widget title="Grid" type="grid" /> */}
           <Widget title="Table" type="table" />
         </div>
       </WidgetContainer>
