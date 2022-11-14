@@ -9,6 +9,7 @@ const FormFieldDialog = () => {
   const { draggedElement } = useSelector((state) => state.Form.formBuilder);
 
   const [form, setFormValues, updateForm] = useInput({
+    text: "",
     name: "",
     label: "",
     options: [],
@@ -33,6 +34,26 @@ const FormFieldDialog = () => {
     const updatedFormOptions = form.options.filter((opt) => opt.id !== id);
     updateForm({ ...form, options: updatedFormOptions });
   };
+
+  if (draggedElement === "text") {
+    return (
+      <div>
+        <Field
+          id={v4()}
+          name="text"
+          type="input"
+          value={form.text}
+          placeholder="Enter Text"
+          onChange={setFormValues}
+          label="Enter Text To be displayed"
+        />
+      </div>
+    );
+  }
+
+  if (draggedElement === "table") {
+    return <></>;
+  }
 
   return (
     <div>
@@ -72,17 +93,14 @@ const FormFieldDialog = () => {
                 />
                 <Field
                   id={v4()}
-                  name="value"
                   type="input"
+                  name="value"
                   value={opt.value}
                   label="Enter Option Value"
                   placeholder="Option Value"
                   onChange={(e) => setOptValues(opt.id, e)}
                 />
-                <IconButtonRounded
-                  className="align-self-center"
-                  onClick={() => removeOpt(opt.id)}
-                >
+                <IconButtonRounded onClick={() => removeOpt(opt.id)}>
                   <AiOutlineClose />
                 </IconButtonRounded>
               </div>

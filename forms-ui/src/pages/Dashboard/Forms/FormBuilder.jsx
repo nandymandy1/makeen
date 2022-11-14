@@ -9,7 +9,7 @@ const FormBuilder = () => {
   const dispatch = useDispatch();
   const { showDialog } = useDialogContext();
 
-  const handleElementDrop = async (e) => {
+  const handleElementDrop = async () => {
     const confirmed = await showDialog({
       body: <FormFieldDialog />,
       cancelButtonText: "Cancel",
