@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import classNames from "classnames";
 import DragWrapper from "@utils/DragWrapper";
+import { getDragProps } from "@utils/getDragProps";
 
 export const InputField = styled.input`
   width: 100%;
@@ -52,22 +53,8 @@ export const IconInput = ({
   );
 };
 
-export const Input = ({
-  id,
-  label = "",
-  draggable = "false",
-  onDragEnd = () => {},
-  onDragOver = () => {},
-  onDragEnter = () => {},
-  onDragStart = () => {},
-  ...restProps
-}) => {
-  const dragProps = {
-    onDragEnd,
-    onDragEnter,
-    onDragStart,
-    onDragOver,
-  };
+export const Input = ({ id, label = "", draggable = "false", ...props }) => {
+  const [dragProps, restProps] = getDragProps(props);
 
   return (
     <DragWrapper draggable={draggable} {...dragProps}>

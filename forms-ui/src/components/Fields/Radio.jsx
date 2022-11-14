@@ -1,4 +1,5 @@
 import DragWrapper from "@utils/DragWrapper";
+import { getDragProps } from "@utils/getDragProps";
 import { useState } from "react";
 import { MdRadioButtonUnchecked, MdRadioButtonChecked } from "react-icons/md";
 
@@ -14,17 +15,9 @@ const Radio = ({
   color = "#047aff",
   draggable = "false",
   onChange = () => {},
-  onDragEnd = () => {},
-  onDragOver = () => {},
-  onDragEnter = () => {},
-  onDragStart = () => {},
+  ...props
 }) => {
-  const dragProps = {
-    onDragEnd,
-    onDragEnter,
-    onDragOver,
-    onDragStart,
-  };
+  const [dragProps] = getDragProps(props);
 
   const [option, setOption] = useState(
     options.map((opt) => ({

@@ -1,19 +1,8 @@
 import DragWrapper from "@utils/DragWrapper";
+import { getDragProps } from "@utils/getDragProps";
 
-const Text = ({
-  content,
-  draggable = "false",
-  onDragEnd = () => {},
-  onDragOver = () => {},
-  onDragEnter = () => {},
-  onDragStart = () => {},
-}) => {
-  const dragProps = {
-    onDragEnd,
-    onDragEnter,
-    onDragOver,
-    onDragStart,
-  };
+const Text = ({ content, draggable = "false", ...props }) => {
+  const [dragProps] = getDragProps(props);
 
   return (
     <DragWrapper draggable={draggable} {...dragProps}>

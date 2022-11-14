@@ -1,4 +1,5 @@
 import DragWrapper from "@utils/DragWrapper";
+import { getDragProps } from "@utils/getDragProps";
 import styled from "styled-components";
 
 const DividerElement = styled.div`
@@ -7,20 +8,8 @@ const DividerElement = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-const Divider = ({
-  draggable = "false",
-  onDragEnd = () => {},
-  onDragOver = () => {},
-  onDragStart = () => {},
-  onDragEnter = () => {},
-}) => {
-  const dragProps = {
-    onDragEnd,
-    onDragEnter,
-    onDragOver,
-    onDragStart,
-    onDragOver,
-  };
+const Divider = ({ draggable = "false", ...props }) => {
+  const [dragProps] = getDragProps(props);
 
   return (
     <DragWrapper draggable={draggable} {...dragProps}>

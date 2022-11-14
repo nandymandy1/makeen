@@ -1,24 +1,15 @@
 import DragWrapper from "@utils/DragWrapper";
+import { getDragProps } from "@utils/getDragProps";
 
 const Textarea = ({
-  label,
   id,
   name,
+  label,
   draggable = "false",
   onChange = () => {},
-  onDragEnd = () => {},
-  onDragOver = () => {},
-  onDragEnter = () => {},
-  onDragStart = () => {},
-  ...restProps
+  ...props
 }) => {
-  const dragProps = {
-    onDragEnd,
-    onDragEnter,
-    onDragOver,
-    onDragStart,
-    onDragOver,
-  };
+  const [dragProps, restProps] = getDragProps(props);
 
   return (
     <DragWrapper draggable={draggable} {...dragProps}>
