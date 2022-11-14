@@ -52,14 +52,24 @@ export const setFormBuilder =
     }
   };
 
-export const saveForm = () => async (dispatch, getState) => {
+export const saveForm = (callback) => async (dispatch, getState) => {
   try {
     dispatch(setFormsLoading(true));
     const { formContents, _id } = getState().Form.formBuilder;
     const { data } = await apiClient.put(`/api/forms/${_id}`, { formContents });
     console.log("UPDATE_FORM_DATA", data);
+    callback({
+      type: "success",
+      position: "right",
+      message: "Form saved successfully.",
+    });
   } catch (err) {
     console.log("FORM_SAVE_ERR", err);
+    callback({
+      type: "error",
+      position: "right",
+      message: "Unable to save form. Please Try again.",
+    });
   } finally {
     dispatch(setFormsLoading(true));
   }

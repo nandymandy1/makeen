@@ -2,6 +2,7 @@ import StyledButton, { CustomButton } from "@components/Button";
 import FormBuilderContainer from "@components/Forms/FormBuilderContainer";
 import ContentRenderer from "@components/Forms/FormContentRenderer";
 import FormFieldDialog from "@components/Forms/FormFieldDialog";
+import { useToast } from "@components/Toast";
 import { useDialogContext } from "@hooks/useModal";
 import {
   addFormContent,
@@ -20,13 +21,16 @@ const FormBuilder = () => {
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
 
+  const { showToast } = useToast();
+
   const dispatch = useDispatch();
   const { showDialog } = useDialogContext();
   const { formContents = [], draggedElement } = useSelector(
     (state) => state.Form.formBuilder
   );
 
-  const updateFormContents = () => dispatch(saveForm());
+  const successCallback = (props) => showToast(props);
+  const updateFormContents = () => dispatch(saveForm(successCallback));
   const prepareFormBuilder = () => dispatch(setFormBuilder(id, null));
 
   const handleElementDrop = async () => {
@@ -97,10 +101,10 @@ const FormBuilder = () => {
         <CustomButton
           pill="pill"
           text="#047aff"
+          className="ms-2"
           border="#047aff"
           primary="#F7F9F9"
-          onClick={() => {}}
-          className="ms-2"
+          onClick={() => null}
         >
           Preview Form
         </CustomButton>
