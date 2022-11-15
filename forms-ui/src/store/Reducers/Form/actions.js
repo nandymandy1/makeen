@@ -285,6 +285,7 @@ export const addFormContent =
   (props = {}) =>
   (dispatch, getState) => {
     const { formContents, draggedElement } = getState().Form.formBuilder;
+
     const updatedFormContents = [
       ...formContents,
       FormFieldGenerator[draggedElement](props),

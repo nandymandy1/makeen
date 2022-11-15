@@ -13,6 +13,7 @@ import {
   setActiveFormForPreview,
   setFormBuilder,
 } from "@store/Reducers/Form/actions";
+import { capitalizeFirstLetter } from "@utils/textUtility";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -42,8 +43,21 @@ const FormBuilder = () => {
     if (draggedElement === null) {
       return;
     }
+
     if (draggedElement === "table") {
-      dispatch(addFormContent());
+      const confirmed = await showDialog({
+        cancelButtonText: "Cancel",
+        okayButtonText: "Add Table",
+        title: <h4>Add Table Properties</h4>,
+        body: <FormFieldDialog ref={fieldProps} />,
+      });
+      if (!confirmed) {
+        dispatch(setActiveDraggedElement(null));
+        return;
+      }
+      const { table } = fieldProps.current.getFormProps();
+      console.log({ table });
+      dispatch(addFormContent(table));
       return;
     }
 
@@ -54,17 +68,17 @@ const FormBuilder = () => {
 
     const confirmed = await showDialog({
       cancelButtonText: "Cancel",
-      okayButtonText: "Add Field",
       title: <h4>Add Field Properties</h4>,
       body: <FormFieldDialog ref={fieldProps} />,
+      okayButtonText: `Add ${capitalizeFirstLetter(draggedElement)}`,
     });
 
     if (!confirmed) {
       dispatch(setActiveDraggedElement(null));
       return;
     } else {
-      const formProps = fieldProps.current.getFormProps();
-      dispatch(addFormContent(formProps));
+      const { form } = fieldProps.current.getFormProps();
+      dispatch(addFormContent(form));
     }
   };
 

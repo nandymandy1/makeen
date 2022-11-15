@@ -52,22 +52,12 @@ export const dividerGenerator = () => ({
   type: "divider",
 });
 
-export const tableGenerator = () => ({
+export const tableGenerator = ({ rows = 1, columns = 1 }) => ({
   id: v4(),
   type: "table",
-  children: [
-    {
-      id: v4(),
-      type: "tr",
-      children: [
-        {
-          id: v4(),
-          type: "td",
-          children: null,
-        },
-      ],
-    },
-  ],
+  children: [...new Array(+rows)].map(() =>
+    TableRowGenerator({ numberOfCols: +columns })
+  ),
 });
 
 export const textFieldGenerator = ({ content }) => ({
