@@ -12,13 +12,7 @@ import DragWrapper from "@utils/DragWrapper";
 import { getDragProps } from "@utils/getDragProps";
 
 const BuilderTableRenderer = ({
-  table: {
-    id,
-    type: Table,
-    preview = false,
-    draggable = "false",
-    ...restProps
-  },
+  table: { id, type: Table, preview = true, draggable = "false", ...restProps },
 }) => {
   const dispatch = useDispatch();
   const [dragProps, table] = getDragProps(restProps);

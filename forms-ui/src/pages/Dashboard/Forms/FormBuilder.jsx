@@ -97,6 +97,7 @@ const FormBuilder = () => {
       >
         {formContents.map((content, i) => (
           <ContentRenderer
+            preview={false}
             onDragEnd={handleSort}
             onDragOver={(e) => e.preventDefault()}
             onDragStart={() => (dragItem.current = i)}

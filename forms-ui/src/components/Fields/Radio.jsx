@@ -15,7 +15,7 @@ const Radio = ({
   color = "#047aff",
   draggable = "false",
   onChange = () => {},
-  preview = false,
+  preview = true,
   ...props
 }) => {
   const [dragProps] = getDragProps(props);

@@ -15,7 +15,7 @@ const Checkbox = ({
   color = "#047aff",
   draggable = "false",
   onChange = () => {},
-  preview = false,
+  preview = true,
   ...restProps
 }) => {
   const [dragProps] = getDragProps(restProps);

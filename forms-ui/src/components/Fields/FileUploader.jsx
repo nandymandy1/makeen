@@ -8,8 +8,8 @@ const FileUploader = ({
   id,
   label = "",
   handleFile,
+  preview = true,
   multiple = false,
-  preview = false,
   draggable = "false",
   ...props
 }) => {

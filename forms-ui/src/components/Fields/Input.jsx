@@ -56,7 +56,7 @@ export const IconInput = ({
 export const Input = ({
   id,
   label = "",
-  preview = false,
+  preview = true,
   draggable = "false",
   ...props
 }) => {

@@ -5,7 +5,7 @@ const Textarea = ({
   id,
   name,
   label,
-  preview = false,
+  preview = true,
   draggable = "false",
   onChange = () => {},
   ...props
