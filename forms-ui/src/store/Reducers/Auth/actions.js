@@ -2,22 +2,75 @@ import apiClient from "@services";
 import { setToken } from "@services/index";
 import { AUTH_LOADING, LOGIN_USER, LOGOUT_USER, SET_AUTH_USER } from "./types";
 
-export const loginUser = (user) => async (dispatch) => {
-  try {
-    dispatch(setAuthLoading(true));
-    const { data } = await apiClient.post("/users/api/auth", user);
-    console.log({ data });
-    dispatch({
-      type: LOGIN_USER,
-    });
-    setToken(data.token);
-    dispatch(getAuthUser(data.user));
-  } catch (err) {
-    console.log("LOGIN_ERR", err);
-  } finally {
-    dispatch(setAuthLoading(false));
-  }
-};
+export const loginUser =
+  (user, notificationCallback = () => {}) =>
+  async (dispatch) => {
+    try {
+      dispatch(setAuthLoading(true));
+      const { data } = await apiClient.post("/users/api/auth", user);
+      dispatch({
+        type: LOGIN_USER,
+      });
+      setToken(data.token);
+      dispatch(getAuthUser(data.user));
+      notificationCallback({
+        type: "success",
+        message: "You are logged in.",
+      });
+    } catch (err) {
+      console.log("LOGIN_ERR", err);
+      const { errors = null, message = null } = err.response.data;
+      if (message) {
+        notificationCallback({
+          type: "error",
+          message,
+        });
+      }
+      if (errors) {
+        notificationCallback({
+          type: "error",
+          message: errors.map((field) => field.msg).join("\n"),
+        });
+      }
+    } finally {
+      dispatch(setAuthLoading(false));
+    }
+  };
+
+export const createAccount =
+  (user, notificationCallback = () => {}) =>
+  async (dispatch) => {
+    try {
+      dispatch(setAuthLoading(true));
+      const { data } = await apiClient.post("/users/api/register", user);
+      dispatch({
+        type: LOGIN_USER,
+      });
+      setToken(data.token);
+      dispatch(getAuthUser(data.user));
+      notificationCallback({
+        type: "success",
+        message: "You are logged in.",
+      });
+    } catch (err) {
+      console.log("LOGIN_ERR", err);
+      const { errors = null, message = null } = err.response.data;
+      if (message) {
+        notificationCallback({
+          type: "error",
+          message,
+        });
+      }
+      if (errors) {
+        notificationCallback({
+          type: "error",
+          message: errors.map((field) => field.msg).join("\n"),
+        });
+      }
+    } finally {
+      dispatch(setAuthLoading(false));
+    }
+  };
 
 export const initApp = () => async (dispatch) => {
   try {

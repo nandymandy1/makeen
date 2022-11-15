@@ -3,7 +3,6 @@ import { User } from "../../models";
 const REGISTER_USER = async (req, res) => {
   try {
     const { username, email } = req.body;
-
     let user = await User.findOne({ username });
     if (user) {
       return res.status(400).json({

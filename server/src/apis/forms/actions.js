@@ -141,7 +141,7 @@ const GET_FORMS = async (req, res) => {
 
 const GET_RECENT_FORMS = async (req, res) => {
   try {
-    const forms = await Form.find()
+    const forms = await Form.find({ author: req.user._id.toString() })
       .select("title _id createdAt updatedAt")
       .sort({ updatedAt: -1 })
       .limit(4);

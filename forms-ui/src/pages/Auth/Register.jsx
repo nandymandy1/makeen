@@ -1,13 +1,17 @@
 import StyledButton, { CustomButton } from "@components/Button";
 import Card from "@components/Card";
 import Field from "@components/Fields";
+import { useToast } from "@components/Toast";
 import useInput from "@hooks/useInput";
+import apiClient from "@services/index";
+import { createAccount } from "@store/Reducers/Auth/actions";
 import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
 import { SiLastpass } from "react-icons/si";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -18,16 +22,7 @@ const Register = () => {
     name: "",
   });
 
-  const register = () => {
-    // const { username, password } = user;
-    // if (!username) {
-    //   console.log("Username should not be empty.");
-    // }
-    // if (!password) {
-    //   console.log("Password should not be empty.");
-    //   return;
-    // }
-  };
+  const register = () => dispatch(createAccount(user, showToast));
 
   return (
     <div className="auth-layout">
