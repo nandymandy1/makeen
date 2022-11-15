@@ -12,13 +12,24 @@ import DragWrapper from "@utils/DragWrapper";
 import { getDragProps } from "@utils/getDragProps";
 
 const BuilderTableRenderer = ({
-  table: { id, type: Table, draggable = "false", ...restProps },
+  table: {
+    id,
+    type: Table,
+    preview = false,
+    draggable = "false",
+    ...restProps
+  },
 }) => {
   const dispatch = useDispatch();
   const [dragProps, table] = getDragProps(restProps);
 
   return (
-    <DragWrapper draggable={draggable} style={{ margin: 10 }} {...dragProps}>
+    <DragWrapper
+      preview={preview}
+      draggable={draggable}
+      style={{ margin: 10 }}
+      {...dragProps}
+    >
       <div className="d-flex justify-content-between align-items-center">
         <Table>
           {table.children.map(({ type: Row, ...row }) => (
@@ -43,39 +54,42 @@ const BuilderTableRenderer = ({
             </Row>
           ))}
         </Table>
-        <div className="d-flex flex-column align-items-center justify-content-center ms-2">
+        {!preview && (
+          <div className="d-flex flex-column align-items-center justify-content-center ms-2">
+            <IconButtonRounded
+              rounded="full"
+              onClick={() => dispatch(addTableRow(id))}
+            >
+              <AiOutlinePlus />
+            </IconButtonRounded>
+            <IconButtonRounded
+              rounded="full"
+              onClick={() => dispatch(removeTableRow(id))}
+            >
+              <AiOutlineMinus />
+            </IconButtonRounded>
+          </div>
+        )}
+      </div>
+      {!preview && (
+        <div
+          style={{ marginTop: 10 }}
+          className="d-flex align-items-center justify-content-end"
+        >
           <IconButtonRounded
             rounded="full"
-            onClick={() => dispatch(addTableRow(id))}
+            onClick={() => dispatch(addTableCol(id))}
           >
             <AiOutlinePlus />
           </IconButtonRounded>
           <IconButtonRounded
             rounded="full"
-            onClick={() => dispatch(removeTableRow(id))}
+            onClick={() => dispatch(removeTableCol(id))}
           >
             <AiOutlineMinus />
           </IconButtonRounded>
         </div>
-      </div>
-
-      <div
-        style={{ marginTop: 10 }}
-        className="d-flex align-items-center justify-content-end"
-      >
-        <IconButtonRounded
-          rounded="full"
-          onClick={() => dispatch(addTableCol(id))}
-        >
-          <AiOutlinePlus />
-        </IconButtonRounded>
-        <IconButtonRounded
-          rounded="full"
-          onClick={() => dispatch(removeTableCol(id))}
-        >
-          <AiOutlineMinus />
-        </IconButtonRounded>
-      </div>
+      )}
     </DragWrapper>
   );
 };

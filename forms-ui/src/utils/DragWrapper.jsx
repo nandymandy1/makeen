@@ -31,6 +31,7 @@ const WidgetActions = styled.div`
 
 const DragWrapper = ({
   children,
+  preview = false,
   handleWidgetActionClick = () => {},
   ...restProps
 }) => {
@@ -38,7 +39,7 @@ const DragWrapper = ({
 
   return (
     <div className="d-flex flex-column">
-      <WidgetActions>
+      {!preview && <WidgetActions>
         <BiMove size={18} color="#000" onClick={() => handleAction("move")} />
         <BiDuplicate
           size={18}
@@ -51,7 +52,7 @@ const DragWrapper = ({
           color="#000"
           onClick={() => handleAction("delete")}
         />
-      </WidgetActions>
+      </WidgetActions>}
       <Dragger {...restProps}>{children}</Dragger>
     </div>
   );

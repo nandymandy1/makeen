@@ -15,6 +15,7 @@ const Radio = ({
   color = "#047aff",
   draggable = "false",
   onChange = () => {},
+  preview = false,
   ...props
 }) => {
   const [dragProps] = getDragProps(props);
@@ -49,7 +50,7 @@ const Radio = ({
   };
 
   return (
-    <DragWrapper draggable={draggable} {...dragProps}>
+    <DragWrapper preview={preview} draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label className="field-label" htmlFor={id}>

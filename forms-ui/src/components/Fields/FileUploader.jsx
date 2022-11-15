@@ -9,6 +9,7 @@ const FileUploader = ({
   label = "",
   handleFile,
   multiple = false,
+  preview = false,
   draggable = "false",
   ...props
 }) => {
@@ -27,7 +28,7 @@ const FileUploader = ({
   };
 
   return (
-    <DragWrapper draggable={draggable} {...dragProps}>
+    <DragWrapper preview={preview} draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label onClick={handleClick} className="field-label" htmlFor={id}>

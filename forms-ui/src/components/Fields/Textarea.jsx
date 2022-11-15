@@ -5,6 +5,7 @@ const Textarea = ({
   id,
   name,
   label,
+  preview = false,
   draggable = "false",
   onChange = () => {},
   ...props
@@ -12,7 +13,7 @@ const Textarea = ({
   const [dragProps, restProps] = getDragProps(props);
 
   return (
-    <DragWrapper draggable={draggable} {...dragProps}>
+    <DragWrapper preview={preview} draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label className="field-label" htmlFor={id}>

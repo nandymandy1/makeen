@@ -6,6 +6,7 @@ import {
   SET_FORM_LOADING,
   SET_RECENT_FORMS,
   UPDATE_FORM,
+  SET_CURRENT_FORM,
 } from "./types";
 
 const initial_form_state = {
@@ -33,6 +34,11 @@ const FormReducer = (state = initial_form_state, { type, payload }) => {
       return {
         ...state,
         formsData: payload,
+      };
+    case SET_CURRENT_FORM:
+      return {
+        ...state,
+        currentForm: payload,
       };
     case SET_FORM_LOADING:
       return {

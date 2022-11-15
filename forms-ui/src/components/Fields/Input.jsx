@@ -53,11 +53,17 @@ export const IconInput = ({
   );
 };
 
-export const Input = ({ id, label = "", draggable = "false", ...props }) => {
+export const Input = ({
+  id,
+  label = "",
+  preview = false,
+  draggable = "false",
+  ...props
+}) => {
   const [dragProps, restProps] = getDragProps(props);
 
   return (
-    <DragWrapper draggable={draggable} {...dragProps}>
+    <DragWrapper preview={preview} draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label className="field-label" htmlFor={id}>

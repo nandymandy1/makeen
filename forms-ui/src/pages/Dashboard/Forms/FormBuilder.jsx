@@ -10,31 +10,34 @@ import {
   reOrderFormContents,
   saveForm,
   setActiveDraggedElement,
+  setActiveFormForPreview,
   setFormBuilder,
 } from "@store/Reducers/Form/actions";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const FormBuilder = () => {
   let { id } = useParams();
   const fieldProps = useRef();
   const dragItem = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const dragOverItem = useRef(null);
-
   const { showToast } = useToast();
 
-  const dispatch = useDispatch();
   const { showDialog } = useDialogContext();
-  const { formContents = [], draggedElement } = useSelector(
-    (state) => state.Form.formBuilder
-  );
+
+  const {
+    _id,
+    draggedElement,
+    formContents = [],
+  } = useSelector((state) => state.Form.formBuilder);
 
   const successCallback = (props) => showToast(props);
   const prepareFormBuilder = () => dispatch(setFormBuilder(id, null));
   const updateFormContents = () => dispatch(saveForm(successCallback));
   const handleAction = (action, id) => dispatch(handleWidgetAction(action, id));
-
   const handleElementDrop = async () => {
     if (draggedElement === null) {
       return;
@@ -64,6 +67,14 @@ const FormBuilder = () => {
       dispatch(addFormContent(formProps));
     }
   };
+
+  const previewForm = () =>
+    dispatch(
+      setActiveFormForPreview(null, {
+        builder: true,
+        callback: () => navigate(`/forms/preview/${_id}`),
+      })
+    );
 
   const handleSort = () => {
     let _formContents = [...formContents];
@@ -109,7 +120,7 @@ const FormBuilder = () => {
           className="ms-2"
           border="#047aff"
           primary="#F7F9F9"
-          onClick={() => null}
+          onClick={previewForm}
         >
           Preview Form
         </CustomButton>

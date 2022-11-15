@@ -7,6 +7,7 @@ import {
   SET_FORM_LOADING,
   SET_RECENT_FORMS,
   UPDATE_FORM,
+  SET_CURRENT_FORM,
 } from "./types";
 import apiClient from "@services";
 import { v4 } from "uuid";
@@ -264,10 +265,12 @@ export const handleWidgetAction = (action, id) => (dispatch, getState) => {
       return;
     case "delete":
       formContents = formContents.filter((content) => content.id !== id);
+
       dispatch({
         type: UPDATE_FORM,
         payload: formContents,
       });
+
       return;
     default:
       return;
@@ -286,6 +289,7 @@ export const addFormContent =
       ...formContents,
       FormFieldGenerator[draggedElement](props),
     ];
+
     dispatch({
       type: DROP_DRAGGED_ELEMENT,
       payload: updatedFormContents,
@@ -295,9 +299,38 @@ export const addFormContent =
 export const deleteFormContent = (id) => (dispatch, getState) => {};
 
 export const reOrderFormContents = (payload) => ({
-  type: UPDATE_FORM,
   payload,
+  type: UPDATE_FORM,
 });
+
+export const setActiveFormForPreview =
+  (id, { builder = false, callback = () => {} }) =>
+  async (dispatch, getState) => {
+    console.log("HELLO");
+    dispatch(setFormsLoading(true));
+    try {
+      if (builder) {
+        const { formBuilder } = getState().Form;
+        delete formBuilder["draggedElement"];
+        dispatch({
+          payload: formBuilder,
+          type: SET_CURRENT_FORM,
+        });
+        callback();
+        return;
+      }
+
+      const { data } = await apiClient.get(`/api/forms/${id}`);
+      dispatch({
+        payload: data.form,
+        type: SET_CURRENT_FORM,
+      });
+    } catch (err) {
+      console.log("FETCH_FORMS_ERR", err);
+    } finally {
+      dispatch(setFormsLoading(false));
+    }
+  };
 
 export const setActiveDraggedElement = (payload) => ({
   payload,

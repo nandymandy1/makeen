@@ -8,11 +8,11 @@ const DividerElement = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-const Divider = ({ draggable = "false", ...props }) => {
+const Divider = ({ draggable = "false", preview = false, ...props }) => {
   const [dragProps] = getDragProps(props);
 
   return (
-    <DragWrapper draggable={draggable} {...dragProps}>
+    <DragWrapper preview={preview} draggable={draggable} {...dragProps}>
       <DividerElement />
     </DragWrapper>
   );
