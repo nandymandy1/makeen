@@ -1,28 +1,29 @@
+import { CustomButton, IconButtonRounded } from "@components/Button";
 import { PreviewTableRenderer } from "@components/Table";
-import { deleteForm, getMyFormsList } from "@store/Reducers/Form/actions";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { IconButtonRounded } from "@components/Button";
-import { AiFillDelete, AiFillEye, AiFillEdit } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import { useDialogContext } from "@hooks/useModal";
 import { useToast } from "@components/Toast";
+import { useDialogContext } from "@hooks/useModal";
+import { deleteForm, getMyFormsList } from "@store/Reducers/Form/actions";
+import { useEffect, useRef } from "react";
+import { AiFillDelete, AiFillEdit, AiFillEye } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import AddForm from "@components/Forms/AddForm";
+import { createForm } from "@store/Reducers/Form/actions";
 
 const Forms = () => {
+  const formRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { showDialog } = useDialogContext();
   const { showToast } = useToast();
+  const { showDialog } = useDialogContext();
 
   const {
     formsData: { forms = [] },
   } = useSelector((state) => state.Form);
 
-  useEffect(() => {
-    dispatch(getMyFormsList({}));
-  }, []);
-
+  const successCallback = (props) => showToast(props);
   const deleteActionCallback = (props) => showToast(props);
+  const goToBuilder = ({ _id }) => navigate(`/forms/builder/${_id}`);
 
   const clickHandler = async (type, id) => {
     if (["preview", "builder"].includes(type)) {
@@ -41,9 +42,37 @@ const Forms = () => {
     }
   };
 
+  const addForm = async () => {
+    const isConfirmed = await showDialog({
+      title: <h4>Add New Form</h4>,
+      okayButtonText: "Create Form",
+      body: <AddForm ref={formRef} />,
+    });
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    let data = formRef.current.getFormValues();
+    dispatch(createForm(data, successCallback, goToBuilder));
+  };
+
+  useEffect(() => {
+    dispatch(getMyFormsList({}));
+  }, []);
+
   return (
     <div>
-      <PreviewTableRenderer>
+      <CustomButton
+        text="#047aff"
+        onClick={addForm}
+        border="#047aff"
+        primary="#F7F9F9"
+      >
+        New Form
+      </CustomButton>
+
+      <PreviewTableRenderer className="mt-3">
         <tr>
           <th>Sno</th>
           <th>Form Name</th>

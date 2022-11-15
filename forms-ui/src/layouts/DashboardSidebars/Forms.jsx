@@ -78,7 +78,7 @@ const FormSidebar = () => {
     <div>
       {recentForms.length > 0 && (
         <FormsContainer>
-          <div className="w-100 d-flex justfiy-content-between align-items-center">
+          <div className="w-100 d-flex justify-content-between align-items-center">
             <h2>Forms</h2>
             <IconButtonRounded onClick={addForm}>
               <AiOutlinePlus />
