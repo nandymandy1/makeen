@@ -1,12 +1,12 @@
 import { v4 } from "uuid";
 
-export const TableRowGenerator = ({ numberOfCols = 1 }) => ({
+export const tableRowGenerator = ({ numberOfCols = 1 }) => ({
   id: v4(),
   type: "tr",
-  children: [...new Array(numberOfCols)].map(() => TableColumnGenerator()),
+  children: [...new Array(numberOfCols)].map(() => tableColumnGenerator()),
 });
 
-export const TableColumnGenerator = () => ({
+export const tableColumnGenerator = () => ({
   id: v4(),
   type: "td",
   children: null,
@@ -56,7 +56,7 @@ export const tableGenerator = ({ rows = 1, columns = 1 }) => ({
   id: v4(),
   type: "table",
   children: [...new Array(+rows)].map(() =>
-    TableRowGenerator({ numberOfCols: +columns })
+    tableRowGenerator({ numberOfCols: +columns })
   ),
 });
 
@@ -70,12 +70,12 @@ const FieldGenerator = {
   table: (props) => tableGenerator(props),
   input: (props) => inputGenerator(props),
   radio: (props) => radioGenerator(props),
-  row: (props) => TableRowGenerator(props),
+  row: (props) => tableRowGenerator(props),
   file: (props) => fileInputGenerator(props),
+  text: (props) => textFieldGenerator(props),
   divider: (props) => dividerGenerator(props),
   checkbox: (props) => checkboxGenerator(props),
-  column: (props) => TableColumnGenerator(props),
-  text: (props) => textFieldGenerator(props),
+  column: (props) => tableColumnGenerator(props),
 };
 
 export default FieldGenerator;

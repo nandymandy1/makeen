@@ -17,6 +17,15 @@ const BuilderTableRenderer = ({
   const dispatch = useDispatch();
   const [dragProps, table] = getDragProps(restProps);
 
+  const tableActions = {
+    addRow: () => dispatch(addTableRow(id)),
+    addColumn: () => dispatch(addTableCol(id)),
+    removeRow: () => dispatch(removeTableRow(id)),
+    removeColumn: () => dispatch(removeTableCol(id)),
+  };
+
+  const handleDragEnter = (e) => console.log(e);
+
   return (
     <DragWrapper
       preview={preview}
@@ -29,7 +38,7 @@ const BuilderTableRenderer = ({
           {table.children.map(({ type: Row, ...row }) => (
             <Row key={row.id}>
               {row.children.map(({ type: Col, ...col }) => (
-                <Col key={col.id}>
+                <Col onDragEnter={handleDragEnter} key={col.id}>
                   {col?.children ? (
                     <Field {...col.children} />
                   ) : (
@@ -50,15 +59,12 @@ const BuilderTableRenderer = ({
         </Table>
         {!preview && (
           <div className="d-flex flex-column align-items-center justify-content-center ms-2">
-            <IconButtonRounded
-              rounded="full"
-              onClick={() => dispatch(addTableRow(id))}
-            >
+            <IconButtonRounded rounded="full" onClick={tableActions["addRow"]}>
               <AiOutlinePlus />
             </IconButtonRounded>
             <IconButtonRounded
               rounded="full"
-              onClick={() => dispatch(removeTableRow(id))}
+              onClick={tableActions["removeRow"]}
             >
               <AiOutlineMinus />
             </IconButtonRounded>
@@ -70,15 +76,12 @@ const BuilderTableRenderer = ({
           style={{ marginTop: 10 }}
           className="d-flex align-items-center justify-content-end"
         >
-          <IconButtonRounded
-            rounded="full"
-            onClick={() => dispatch(addTableCol(id))}
-          >
+          <IconButtonRounded rounded="full" onClick={tableActions["addColumn"]}>
             <AiOutlinePlus />
           </IconButtonRounded>
           <IconButtonRounded
             rounded="full"
-            onClick={() => dispatch(removeTableCol(id))}
+            onClick={tableActions["removeColumn"]}
           >
             <AiOutlineMinus />
           </IconButtonRounded>

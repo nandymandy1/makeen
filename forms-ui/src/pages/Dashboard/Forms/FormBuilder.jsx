@@ -39,6 +39,7 @@ const FormBuilder = () => {
   const prepareFormBuilder = () => dispatch(setFormBuilder(id, null));
   const updateFormContents = () => dispatch(saveForm(successCallback));
   const handleAction = (action, id) => dispatch(handleWidgetAction(action, id));
+
   const handleElementDrop = async () => {
     if (draggedElement === null) {
       return;
@@ -51,10 +52,12 @@ const FormBuilder = () => {
         title: <h4>Add Table Properties</h4>,
         body: <FormFieldDialog ref={fieldProps} />,
       });
+
       if (!confirmed) {
         dispatch(setActiveDraggedElement(null));
         return;
       }
+
       const { table } = fieldProps.current.getFormProps();
       console.log({ table });
       dispatch(addFormContent(table));
@@ -99,6 +102,11 @@ const FormBuilder = () => {
     dispatch(reOrderFormContents(_formContents));
   };
 
+  const handleDragOver = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
   useEffect(() => {
     prepareFormBuilder();
   }, [id]);
@@ -107,7 +115,8 @@ const FormBuilder = () => {
     <>
       <FormBuilderContainer
         className="form-builder"
-        onDragLeave={handleElementDrop}
+        onDrop={handleElementDrop}
+        onDragOver={handleDragOver}
       >
         {formContents.map((content, i) => (
           <ContentRenderer
