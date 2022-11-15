@@ -7,10 +7,10 @@ import { HiOutlineUpload } from "react-icons/hi";
 const FileUploader = ({
   id,
   label = "",
-  handleFile,
   preview = true,
   multiple = false,
   draggable = "false",
+  handleFile = () => {},
   ...props
 }) => {
   const hiddenFileInput = useRef(null);
