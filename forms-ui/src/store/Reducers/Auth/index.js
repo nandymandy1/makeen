@@ -1,6 +1,6 @@
 import { AUTH_LOADING, LOGIN_USER, LOGOUT_USER, SET_AUTH_USER } from "./types";
 
-const initial_auth_state = {
+export const initial_auth_state = {
   user: null,
   isAuth: false,
   authLoading: false,
@@ -23,8 +23,6 @@ const AuthReducer = (state = initial_auth_state, { type, payload }) => {
         ...state,
         authLoading: payload,
       };
-    case LOGOUT_USER:
-      return initial_auth_state;
     default:
       return state;
   }

@@ -9,7 +9,7 @@ import {
   SET_CURRENT_FORM,
 } from "./types";
 
-const initial_form_state = {
+export const initial_form_state = {
   formsData: {},
   recentForms: [],
   currentForm: null,
