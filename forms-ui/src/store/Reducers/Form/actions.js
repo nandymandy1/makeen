@@ -2,6 +2,7 @@ import FormFieldGenerator from "@utils/FieldGenerator";
 import {
   DROP_DRAGGED_ELEMENT,
   SET_DRAGGED_ELEMENT,
+  SET_FORMS_LIST,
   SET_FORM_BUILDER,
   SET_FORM_LOADING,
   SET_RECENT_FORMS,
@@ -97,6 +98,58 @@ export const fetchRecentForms = () => async (dispatch) => {
     });
   } catch (err) {
     console.log("RECENT_FORMS_API_ERR", err);
+  } finally {
+    dispatch(setFormsLoading(false));
+  }
+};
+
+export const deleteForm =
+  (id, callback = () => {}) =>
+  async (dispatch, getState) => {
+    try {
+      dispatch(setFormsLoading(true));
+      const { formsData } = getState().Form;
+      await apiClient.delete(`/api/forms/${id}`);
+      const updatedFormsState = {
+        ...formsData,
+        forms: formsData.forms.filter((form) => form._id !== id),
+      };
+      dispatch({
+        type: SET_FORMS_LIST,
+        payload: updatedFormsState,
+      });
+      callback({
+        type: "success",
+        position: "right",
+        message: "Form deleted successfully.",
+      });
+    } catch (err) {
+      callback({
+        type: "error",
+        position: "right",
+        message: "Unable to delete form.",
+      });
+      console.log("DELETE_FORM_ERR", err);
+    } finally {
+      dispatch(setFormsLoading(false));
+    }
+  };
+
+export const getMyFormsList = () => async (dispatch, getState) => {
+  try {
+    dispatch(setFormsLoading(true));
+    const { paginator = { page: 1, limit: 5 } } = getState().Form.formsData;
+
+    const { data } = await apiClient.get("/api/forms", {
+      params: paginator,
+    });
+
+    dispatch({
+      payload: data,
+      type: SET_FORMS_LIST,
+    });
+  } catch (err) {
+    console.log("FETCH_FORM_LIST_ERR", err);
   } finally {
     dispatch(setFormsLoading(false));
   }

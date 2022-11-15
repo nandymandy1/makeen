@@ -1,6 +1,7 @@
 import { v4 } from "uuid";
 
 export const UPDATE_FORM = "UPDATE_FORM";
+export const SET_FORMS_LIST = "SET_FORMS_LIST";
 export const SET_RECENT_FORMS = "SET_RECENT_FORMS";
 export const SET_FORM_BUILDER = "SET_FORM_BUILDER";
 export const SET_FORM_LOADING = "SET_FORM_LOADING";

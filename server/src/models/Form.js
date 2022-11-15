@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import paginate from "mongoose-paginate-v2";
 
 const FormSchema = new Schema(
   {
@@ -23,6 +24,8 @@ const FormSchema = new Schema(
     timestamps: true,
   }
 );
+
+FormSchema.plugin(paginate);
 
 const Form = model("forms", FormSchema);
 

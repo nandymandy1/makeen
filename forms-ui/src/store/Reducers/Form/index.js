@@ -1,6 +1,7 @@
 import {
   DROP_DRAGGED_ELEMENT,
   SET_DRAGGED_ELEMENT,
+  SET_FORMS_LIST,
   SET_FORM_BUILDER,
   SET_FORM_LOADING,
   SET_RECENT_FORMS,
@@ -8,8 +9,9 @@ import {
 } from "./types";
 
 const initial_form_state = {
-  currentForm: null,
+  formsData: {},
   recentForms: [],
+  currentForm: null,
   formsLoading: false,
   formBuilder: {
     formContents: [],
@@ -26,6 +28,11 @@ const FormReducer = (state = initial_form_state, { type, payload }) => {
           ...state.formBuilder,
           formContents: payload,
         },
+      };
+    case SET_FORMS_LIST:
+      return {
+        ...state,
+        formsData: payload,
       };
     case SET_FORM_LOADING:
       return {
