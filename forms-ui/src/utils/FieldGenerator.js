@@ -70,6 +70,12 @@ export const tableGenerator = () => ({
   ],
 });
 
+export const textFieldGenerator = ({ content }) => ({
+  content,
+  id: v4(),
+  type: "text",
+});
+
 const FieldGenerator = {
   table: (props) => tableGenerator(props),
   input: (props) => inputGenerator(props),
@@ -79,6 +85,7 @@ const FieldGenerator = {
   divider: (props) => dividerGenerator(props),
   checkbox: (props) => checkboxGenerator(props),
   column: (props) => TableColumnGenerator(props),
+  text: (props) => textFieldGenerator(props),
 };
 
 export default FieldGenerator;

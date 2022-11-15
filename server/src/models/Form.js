@@ -1,14 +1,19 @@
 import { model, Schema } from "mongoose";
+import paginate from "mongoose-paginate-v2";
 
 const FormSchema = new Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
-    formContent: {
-      type: Array,
+    description: {
+      type: String,
       required: true,
+    },
+    formContents: {
+      type: Array,
+      default: [],
     },
     author: {
       type: Schema.Types.ObjectId,
@@ -19,6 +24,8 @@ const FormSchema = new Schema(
     timestamps: true,
   }
 );
+
+FormSchema.plugin(paginate);
 
 const Form = model("forms", FormSchema);
 

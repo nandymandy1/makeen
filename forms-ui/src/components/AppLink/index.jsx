@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 
 const NavLink = ({ children, ...props }) => {
   delete props["nav"];
-
   return <Link {...props}>{children}</Link>;
 };
 
-const AppLink = styled(NavLink)`
+export const AppLink = styled(NavLink)`
   color: #000;
   font-size: 11;
   margin-left: 5px;

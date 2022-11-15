@@ -5,7 +5,7 @@ import Modal from "./Modal";
 
 export const DialogContext = createContext();
 
-const DialogProvider = (props) => {
+const DialogProvider = ({ children }) => {
   const resolver = useRef();
 
   const [content, setContent] = useState({
@@ -53,7 +53,7 @@ const DialogProvider = (props) => {
 
   return (
     <DialogContext.Provider value={modalContext}>
-      {props.children}
+      {children}
       {show && (
         <Modal
           active={show}

@@ -32,7 +32,7 @@ body {
   &.justify-content-center {
     justify-content: center;
   }
-  &.justfiy-content-between {
+  &.justify-content-between {
     justify-content: space-between;
   }
   &.justify-content-evenly {
@@ -106,7 +106,8 @@ body {
   font-size: 0.9em;
 }
 
-.form-builder {
+.form-builder,
+.form-preview {
   table {
     width: 100%;
     border-collapse: separate;
@@ -172,4 +173,16 @@ body {
 
 .ms-2 {
   margin-left: 10px;
+}
+
+.mb-2 {
+  margin-bottom: 20px;
+}
+
+.mt--1 {
+  margin-top: -10px;
+}
+
+.mt-3 {
+  margin-top: 15px;
 }

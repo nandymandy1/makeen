@@ -1,9 +1,8 @@
 import StyledButton, { CustomButton } from "@components/Button";
 import Card from "@components/Card";
-import Field from "@components/Fields/Input";
+import Field from "@components/Fields";
 import useInput from "@hooks/useInput";
-import { loginUser } from "@store/Reducers/Auth/actions";
-import { AiOutlineUser, AiOutlineMail } from "react-icons/ai";
+import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
 import { SiLastpass } from "react-icons/si";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +27,6 @@ const Register = () => {
     //   console.log("Password should not be empty.");
     //   return;
     // }
-    dispatch(loginUser(user));
   };
 
   return (
@@ -44,8 +42,8 @@ const Register = () => {
               id="name"
               name="name"
               label="Name"
-              control="input"
               value={user.name}
+              control="iconInput"
               placeholder="Name"
               onChange={setUser}
               icon={<AiOutlineUser />}
@@ -54,7 +52,7 @@ const Register = () => {
               prefix
               id="username"
               name="username"
-              control="input"
+              control="iconInput"
               label="Username"
               onChange={setUser}
               value={user.username}
@@ -66,7 +64,7 @@ const Register = () => {
               id="email"
               name="email"
               label="Email"
-              control="input"
+              control="iconInput"
               onChange={setUser}
               value={user.email}
               placeholder="Email"
@@ -77,8 +75,8 @@ const Register = () => {
               id="password"
               type="password"
               name="password"
-              control="input"
               label="Password"
+              control="iconInput"
               onChange={setUser}
               value={user.password}
               icon={<SiLastpass />}

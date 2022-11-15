@@ -1,17 +1,22 @@
 import { IconButton } from "@components/Button";
 import DragWrapper from "@utils/DragWrapper";
+import { getDragProps } from "@utils/getDragProps";
 import { useRef } from "react";
 import { HiOutlineUpload } from "react-icons/hi";
 
 const FileUploader = ({
   id,
   label = "",
-  handleFile,
+  preview = true,
   multiple = false,
   draggable = "false",
-  ...restProps
+  handleFile = () => {},
+  ...props
 }) => {
   const hiddenFileInput = useRef(null);
+  const [dragProps, restProps] = getDragProps(props);
+
+  const handleClick = () => hiddenFileInput.current.click();
 
   const handleChange = ({ target: { files, name } }) => {
     if (multiple) {
@@ -22,10 +27,8 @@ const FileUploader = ({
     }
   };
 
-  const handleClick = () => hiddenFileInput.current.click();
-
   return (
-    <DragWrapper draggable={draggable}>
+    <DragWrapper preview={preview} draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label onClick={handleClick} className="field-label" htmlFor={id}>

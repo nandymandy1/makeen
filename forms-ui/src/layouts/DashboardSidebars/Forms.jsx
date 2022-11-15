@@ -1,10 +1,15 @@
 import { IconButtonRounded } from "@components/Button";
+import AddForm from "@components/Forms/AddForm";
 import FormsContainer from "@components/Forms/FormsContainer";
 import Widget, { WidgetContainer } from "@components/Widget";
+import { useDialogContext } from "@hooks/useModal";
+import { createForm, fetchRecentForms } from "@store/Reducers/Form/actions";
+import { useEffect, useRef } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useToast } from "@components/Toast";
 
 const FormLink = styled(Link)`
   color: #000;
@@ -31,27 +36,57 @@ const FormListItem = ({ children, path }) => (
 const Widgets = [
   { title: "Input", type: "input" },
   { title: "Checkbox", type: "checkbox" },
+  { title: "Radio Group", type: "radio" },
   { title: "File Uploader", type: "file" },
   { title: "Text", type: "text" },
   { title: "Divider", type: "divider" },
 ];
 
 const FormSidebar = () => {
-  const { forms } = useSelector((state) => state.Form);
+  const formRef = useRef();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { showToast } = useToast();
+  const { showDialog } = useDialogContext();
+  const { recentForms = [] } = useSelector((state) => state.Form);
+
+  const getRecentForms = () => dispatch(fetchRecentForms());
+
+  const successCallback = (props) => showToast(props);
+  const goToBuilder = ({ _id }) => navigate(`/forms/builder/${_id}`);
+
+  const addForm = async () => {
+    const isConfirmed = await showDialog({
+      title: <h4>Add New Form</h4>,
+      okayButtonText: "Create Form",
+      body: <AddForm ref={formRef} />,
+    });
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    let data = formRef.current.getFormValues();
+    dispatch(createForm(data, successCallback, goToBuilder));
+  };
+
+  useEffect(() => {
+    getRecentForms();
+  }, []);
 
   return (
     <div>
-      {forms.length > 0 && (
+      {recentForms.length > 0 && (
         <FormsContainer>
-          <div className="w-100 d-flex justfiy-content-between align-items-center">
+          <div className="w-100 d-flex justify-content-between align-items-center">
             <h2>Forms</h2>
-            <IconButtonRounded>
+            <IconButtonRounded onClick={addForm}>
               <AiOutlinePlus />
             </IconButtonRounded>
           </div>
           <ul>
-            {forms.map((form) => (
-              <FormListItem key={form.id} path={`/forms/${form.id}`}>
+            {recentForms.map((form) => (
+              <FormListItem key={form._id} path={`/forms/builder/${form._id}`}>
                 {form.title}
               </FormListItem>
             ))}
@@ -63,7 +98,7 @@ const FormSidebar = () => {
           <h3>Cell Layouts</h3>
         </div>
         <div>
-          <Widget title="Grid" type="grid" />
+          {/* <Widget title="Grid" type="grid" /> */}
           <Widget title="Table" type="table" />
         </div>
       </WidgetContainer>

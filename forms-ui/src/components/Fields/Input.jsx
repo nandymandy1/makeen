@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import classNames from "classnames";
 import DragWrapper from "@utils/DragWrapper";
+import { getDragProps } from "@utils/getDragProps";
 
 export const InputField = styled.input`
   width: 100%;
@@ -55,11 +56,14 @@ export const IconInput = ({
 export const Input = ({
   id,
   label = "",
+  preview = true,
   draggable = "false",
-  ...restProps
+  ...props
 }) => {
+  const [dragProps, restProps] = getDragProps(props);
+
   return (
-    <DragWrapper draggable={draggable}>
+    <DragWrapper preview={preview} draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label className="field-label" htmlFor={id}>

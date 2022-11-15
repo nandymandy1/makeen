@@ -6,7 +6,7 @@ const useInput = (initialState) => {
   const handleChange = ({ target: { value, name } }) =>
     setInputValues({ ...inputValues, [name]: value });
 
-  return [inputValues, handleChange];
+  return [inputValues, handleChange, setInputValues];
 };
 
 export default useInput;

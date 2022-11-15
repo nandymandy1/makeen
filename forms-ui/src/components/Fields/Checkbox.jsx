@@ -1,6 +1,7 @@
 import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import { useState } from "react";
 import DragWrapper from "@utils/DragWrapper";
+import { getDragProps } from "@utils/getDragProps";
 
 const Checkbox = ({
   id,
@@ -14,7 +15,11 @@ const Checkbox = ({
   color = "#047aff",
   draggable = "false",
   onChange = () => {},
+  preview = true,
+  ...restProps
 }) => {
+  const [dragProps] = getDragProps(restProps);
+
   const [option, setOption] = useState(
     options.map((opt) => ({
       ...opt,
@@ -41,7 +46,7 @@ const Checkbox = ({
   };
 
   return (
-    <DragWrapper draggable={draggable}>
+    <DragWrapper preview={preview} draggable={draggable} {...dragProps}>
       <div style={{ marginTop: 10 }}>
         {label && (
           <label className="field-label" htmlFor={id}>

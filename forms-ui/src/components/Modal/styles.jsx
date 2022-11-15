@@ -57,6 +57,7 @@ export const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
   color: #303742;
   padding: 20px 5px 10px 5px;
 `;
@@ -72,12 +73,12 @@ export const ModalFooter = styled.div`
 `;
 
 export const Button = styled.button`
-  background: #7b2cbf;
   margin: 10px;
   font-size: 1em;
   cursor: pointer;
   color: white;
   padding: 5px 10px;
   border-radius: 3px;
+  background: #7b2cbf;
   border: 2px solid #7b2cbf;
 `;
