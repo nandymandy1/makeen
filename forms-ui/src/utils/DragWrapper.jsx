@@ -29,6 +29,13 @@ const WidgetActions = styled.div`
   }
 `;
 
+const ActionsButtons = [
+  { icon: BiMove, action: "move" },
+  { icon: BiDuplicate, action: "duplicate" },
+  { icon: BiPencil, action: "edit" },
+  { icon: BiTrash, action: "delete" },
+];
+
 const DragWrapper = ({
   children,
   preview = true,
@@ -41,22 +48,14 @@ const DragWrapper = ({
     <div className="d-flex flex-column">
       {!preview && (
         <WidgetActions>
-          <BiMove size={18} color="#000" onClick={() => handleAction("move")} />
-          <BiDuplicate
-            size={18}
-            color="#000"
-            onClick={() => handleAction("duplicate")}
-          />
-          <BiPencil
-            size={18}
-            color="#000"
-            onClick={() => handleAction("edit")}
-          />
-          <BiTrash
-            size={18}
-            color="#000"
-            onClick={() => handleAction("delete")}
-          />
+          {ActionsButtons.map(({ icon: Icon, action }) => (
+            <Icon
+              size={18}
+              key={action}
+              color="#000"
+              onClick={() => handleAction(action)}
+            />
+          ))}
         </WidgetActions>
       )}
       <Dragger {...restProps}>{children}</Dragger>
