@@ -72,6 +72,10 @@ const FormBuilder = () => {
     dispatch(reOrderFormContents(_formContents));
   };
 
+  const handleAction = (action, id) => {
+    console.log(action, id);
+  };
+
   useEffect(() => {
     prepareFormBuilder();
   }, [id]);
@@ -88,6 +92,9 @@ const FormBuilder = () => {
             onDragOver={(e) => e.preventDefault()}
             onDragStart={() => (dragItem.current = i)}
             onDragEnter={() => (dragOverItem.current = i)}
+            handleWidgetActionClick={(action) =>
+              handleAction(action, content.id)
+            }
             key={content.id}
             draggable="true"
             {...content}

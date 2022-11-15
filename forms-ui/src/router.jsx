@@ -75,7 +75,7 @@ export const FormsRoutes = [
   },
   {
     key: "preview",
-    path: "preview",
+    path: "preview/:id",
     element: <FormPreview />,
   },
   {

@@ -9,27 +9,13 @@ import {
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import DragWrapper from "@utils/DragWrapper";
+import { getDragProps } from "@utils/getDragProps";
 
 const BuilderTableRenderer = ({
-  table: {
-    id,
-    type: Table,
-    draggable = "false",
-    onDragEnter = () => {},
-    onDragStart = () => {},
-    onDragOver = () => {},
-    onDragEnd = () => {},
-    ...table
-  },
+  table: { id, type: Table, draggable = "false", ...restProps },
 }) => {
   const dispatch = useDispatch();
-
-  const dragProps = {
-    onDragEnd,
-    onDragEnter,
-    onDragOver,
-    onDragStart,
-  };
+  const [dragProps, table] = getDragProps(restProps);
 
   return (
     <DragWrapper draggable={draggable} style={{ margin: 10 }} {...dragProps}>

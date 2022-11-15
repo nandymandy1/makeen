@@ -3,6 +3,7 @@ export const getDragProps = ({
   onDragOver = () => {},
   onDragStart = () => {},
   onDragEnter = () => {},
+  handleWidgetActionClick = () => {},
   ...restProps
 }) => [
   {
@@ -10,6 +11,7 @@ export const getDragProps = ({
     onDragOver,
     onDragStart,
     onDragEnter,
+    handleWidgetActionClick,
   },
   restProps,
 ];
