@@ -1,14 +1,14 @@
 import { combineReducers } from "redux";
-import Auth, { initial_auth_state } from "./Auth";
+import Auth from "./Auth";
 import { LOGOUT_USER } from "./Auth/types";
-import Form, { initial_form_state } from "./Form";
+import Form from "./Form";
 
 const appReducer = combineReducers({
   Auth,
   Form,
 });
 
-const initialState = appReducer(initial_auth_state, initial_form_state);
+const initialState = appReducer({}, {});
 
 const rootReducer = (state, { type, payload }) => {
   if (type === LOGOUT_USER) {
