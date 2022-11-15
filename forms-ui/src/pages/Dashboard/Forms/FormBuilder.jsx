@@ -6,6 +6,7 @@ import { useToast } from "@components/Toast";
 import { useDialogContext } from "@hooks/useModal";
 import {
   addFormContent,
+  handleWidgetAction,
   reOrderFormContents,
   saveForm,
   setActiveDraggedElement,
@@ -30,8 +31,9 @@ const FormBuilder = () => {
   );
 
   const successCallback = (props) => showToast(props);
-  const updateFormContents = () => dispatch(saveForm(successCallback));
   const prepareFormBuilder = () => dispatch(setFormBuilder(id, null));
+  const updateFormContents = () => dispatch(saveForm(successCallback));
+  const handleAction = (action, id) => dispatch(handleWidgetAction(action, id));
 
   const handleElementDrop = async () => {
     if (draggedElement === null) {
@@ -70,10 +72,6 @@ const FormBuilder = () => {
     dragItem.current = null;
     dragOverItem.current = null;
     dispatch(reOrderFormContents(_formContents));
-  };
-
-  const handleAction = (action, id) => {
-    console.log(action, id);
   };
 
   useEffect(() => {

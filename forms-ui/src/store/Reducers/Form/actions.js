@@ -8,8 +8,8 @@ import {
   SET_RECENT_FORMS,
   UPDATE_FORM,
 } from "./types";
-
 import apiClient from "@services";
+import { v4 } from "uuid";
 
 export const createForm =
   (form, notificationCallback = () => {}, callback = () => {}) =>
@@ -239,6 +239,41 @@ export const removeTableCol = (id) => (dispatch, getState) => {
   });
 };
 
+export const handleWidgetAction = (action, id) => (dispatch, getState) => {
+  let { formContents } = getState().Form.formBuilder;
+
+  switch (action) {
+    case "move":
+      return;
+    case "duplicate":
+      const originalItem = formContents.find((content) => content.id === id);
+      const originalItemIndex = formContents.findIndex(
+        (content) => content.id === id
+      );
+
+      formContents.splice(originalItemIndex + 1, 0, {
+        ...originalItem,
+        id: v4(),
+      });
+
+      dispatch({
+        type: UPDATE_FORM,
+        payload: formContents,
+      });
+
+      return;
+    case "delete":
+      formContents = formContents.filter((content) => content.id !== id);
+      dispatch({
+        type: UPDATE_FORM,
+        payload: formContents,
+      });
+      return;
+    default:
+      return;
+  }
+};
+
 export const addTableContent =
   ({ table, row, col }) =>
   (dispatch, getState) => {};
@@ -251,7 +286,6 @@ export const addFormContent =
       ...formContents,
       FormFieldGenerator[draggedElement](props),
     ];
-
     dispatch({
       type: DROP_DRAGGED_ELEMENT,
       payload: updatedFormContents,
