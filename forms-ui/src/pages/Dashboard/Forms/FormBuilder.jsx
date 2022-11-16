@@ -13,6 +13,7 @@ import {
   setActiveFormForPreview,
   setFormBuilder,
 } from "@store/Reducers/Form/actions";
+import { capitalizeFirstLetter } from "@utils/textUtility";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -38,12 +39,28 @@ const FormBuilder = () => {
   const prepareFormBuilder = () => dispatch(setFormBuilder(id, null));
   const updateFormContents = () => dispatch(saveForm(successCallback));
   const handleAction = (action, id) => dispatch(handleWidgetAction(action, id));
+
   const handleElementDrop = async () => {
     if (draggedElement === null) {
       return;
     }
+
     if (draggedElement === "table") {
-      dispatch(addFormContent());
+      const confirmed = await showDialog({
+        cancelButtonText: "Cancel",
+        okayButtonText: "Add Table",
+        title: <h4>Add Table Properties</h4>,
+        body: <FormFieldDialog ref={fieldProps} />,
+      });
+
+      if (!confirmed) {
+        dispatch(setActiveDraggedElement(null));
+        return;
+      }
+
+      const { table } = fieldProps.current.getFormProps();
+      console.log({ table });
+      dispatch(addFormContent(table));
       return;
     }
 
@@ -54,17 +71,17 @@ const FormBuilder = () => {
 
     const confirmed = await showDialog({
       cancelButtonText: "Cancel",
-      okayButtonText: "Add Field",
       title: <h4>Add Field Properties</h4>,
       body: <FormFieldDialog ref={fieldProps} />,
+      okayButtonText: `Add ${capitalizeFirstLetter(draggedElement)}`,
     });
 
     if (!confirmed) {
       dispatch(setActiveDraggedElement(null));
       return;
     } else {
-      const formProps = fieldProps.current.getFormProps();
-      dispatch(addFormContent(formProps));
+      const { form } = fieldProps.current.getFormProps();
+      dispatch(addFormContent(form));
     }
   };
 
@@ -85,6 +102,11 @@ const FormBuilder = () => {
     dispatch(reOrderFormContents(_formContents));
   };
 
+  const handleDragOver = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
   useEffect(() => {
     prepareFormBuilder();
   }, [id]);
@@ -93,7 +115,8 @@ const FormBuilder = () => {
     <>
       <FormBuilderContainer
         className="form-builder"
-        onDragLeave={handleElementDrop}
+        onDrop={handleElementDrop}
+        onDragOver={handleDragOver}
       >
         {formContents.map((content, i) => (
           <ContentRenderer

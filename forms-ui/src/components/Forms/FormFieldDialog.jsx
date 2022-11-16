@@ -14,7 +14,13 @@ const initialFormValues = {
   content: "",
 };
 
+const initialTableProps = {
+  rows: 1,
+  columns: 1,
+};
+
 const FormFieldDialog = ({}, ref) => {
+  const [tableProps, setTableProps] = useInput(initialTableProps);
   const [form, setFormValues, updateForm] = useInput(initialFormValues);
   const { draggedElement } = useSelector((state) => state.Form.formBuilder);
 
@@ -39,7 +45,7 @@ const FormFieldDialog = ({}, ref) => {
   };
 
   useImperativeHandle(ref, () => ({
-    getFormProps: () => form,
+    getFormProps: () => ({ form, table: tableProps }),
     resetFormProps: () => updateForm(initialFormValues),
   }));
 
@@ -56,6 +62,39 @@ const FormFieldDialog = ({}, ref) => {
           label="Enter Text To be displayed"
         />
       </div>
+    );
+  }
+
+  if (draggedElement === "table") {
+    return (
+      <>
+        <div>
+          <Field
+            id={v4()}
+            min={1}
+            max={10}
+            name="rows"
+            type="number"
+            label="Rows"
+            value={tableProps.rows}
+            onChange={setTableProps}
+            placeholder="Number of Rows"
+          />
+        </div>
+        <div>
+          <Field
+            min={1}
+            max={10}
+            id={v4()}
+            type="number"
+            name="columns"
+            onChange={setTableProps}
+            label="Number of Columns"
+            value={tableProps.columns}
+            placeholder="Enter Text Content"
+          />
+        </div>
+      </>
     );
   }
 
