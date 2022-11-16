@@ -6,10 +6,10 @@ import {
   removeTableCol,
   removeTableRow,
 } from "@store/Reducers/Form/actions";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useDispatch } from "react-redux";
 import DragWrapper from "@utils/DragWrapper";
 import { getDragProps } from "@utils/getDragProps";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { useDispatch } from "react-redux";
 
 const BuilderTableRenderer = ({
   table: { id, type: Table, preview = true, draggable = "false", ...restProps },
@@ -17,14 +17,12 @@ const BuilderTableRenderer = ({
   const dispatch = useDispatch();
   const [dragProps, table] = getDragProps(restProps);
 
-  const tableActions = {
+  const TableActions = {
     addRow: () => dispatch(addTableRow(id)),
     addColumn: () => dispatch(addTableCol(id)),
     removeRow: () => dispatch(removeTableRow(id)),
     removeColumn: () => dispatch(removeTableCol(id)),
   };
-
-  const handleDragEnter = (e) => console.log(e);
 
   return (
     <DragWrapper
@@ -38,8 +36,8 @@ const BuilderTableRenderer = ({
           {table.children.map(({ type: Row, ...row }) => (
             <Row key={row.id}>
               {row.children.map(({ type: Col, ...col }) => (
-                <Col onDragEnter={handleDragEnter} key={col.id}>
-                  {col?.children ? (
+                <Col key={col.id}>
+                  {col.children ? (
                     <Field {...col.children} />
                   ) : (
                     <div
@@ -47,10 +45,9 @@ const BuilderTableRenderer = ({
                         width: 100,
                         height: 100,
                         visibility: "hidden",
+                        background: "red",
                       }}
-                    >
-                      <p></p>
-                    </div>
+                    ></div>
                   )}
                 </Col>
               ))}
@@ -59,13 +56,10 @@ const BuilderTableRenderer = ({
         </Table>
         {!preview && (
           <div className="d-flex flex-column align-items-center justify-content-center ms-2">
-            <IconButtonRounded rounded="full" onClick={tableActions["addRow"]}>
+            <IconButtonRounded rounded="full" onClick={TableActions.addRow}>
               <AiOutlinePlus />
             </IconButtonRounded>
-            <IconButtonRounded
-              rounded="full"
-              onClick={tableActions["removeRow"]}
-            >
+            <IconButtonRounded rounded="full" onClick={TableActions.removeRow}>
               <AiOutlineMinus />
             </IconButtonRounded>
           </div>
@@ -76,13 +70,10 @@ const BuilderTableRenderer = ({
           style={{ marginTop: 10 }}
           className="d-flex align-items-center justify-content-end"
         >
-          <IconButtonRounded rounded="full" onClick={tableActions["addColumn"]}>
+          <IconButtonRounded rounded="full" onClick={TableActions.addColumn}>
             <AiOutlinePlus />
           </IconButtonRounded>
-          <IconButtonRounded
-            rounded="full"
-            onClick={tableActions["removeColumn"]}
-          >
+          <IconButtonRounded rounded="full" onClick={TableActions.removeColumn}>
             <AiOutlineMinus />
           </IconButtonRounded>
         </div>
